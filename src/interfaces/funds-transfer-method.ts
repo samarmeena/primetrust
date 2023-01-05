@@ -1,0 +1,36 @@
+export interface RawFundsTransferMethod {
+  achCheckType: null;
+  bankAccountName: string;
+  bankAccountType: string;
+  bankName: null;
+  checkPayee: null;
+  contactEmail: string;
+  contactId: string | null;
+  contactName: string;
+  creditCardBin: null;
+  creditCardExpirationDate: null;
+  creditCardFundingType: null;
+  creditCardName: null;
+  creditCardPostalCode: null;
+  creditCardResourceId: string | null;
+  creditCardType: null;
+  disbursementApproved: boolean;
+  etPaymentMethodId: null;
+  fingerprint: string;
+  fundsTransferType: string;
+  furtherCreditAccountName: null;
+  furtherCreditAccountNumber: null;
+  iban: null;
+  id: string;
+  inactive: boolean;
+  intermediaryBankName: null;
+  intermediaryBankReference: null;
+  intermediaryBankRoutingNumber: null;
+  intermediaryBankSwiftCode: null;
+  ipAddress: null;
+  label: null;
+  last4: string;
+  routingNumber: string;
+  signetAddress: null;
+  swiftCode: null;
+}
