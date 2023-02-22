@@ -1,4 +1,5 @@
 export * from "./account.js";
+export * from "./account-cash-transfer.js";
 export * from "./asset-disbursement.js";
 export * from "./asset-transfer-method.js";
 export * from "./contact-funds-transfer-reference.js";

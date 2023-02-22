@@ -4,6 +4,7 @@ import axios from "axios";
 import {
   AccountAssetTotalManager,
   AccountCashTotalManager,
+  AccountCashTransferManager,
   AccountManager,
   AgreementPreviewManager,
   AmlCheckManager,
@@ -42,6 +43,7 @@ export class PrimeTrustAPIClient {
   accounts: AccountManager;
   accountAssetTotals: AccountAssetTotalManager;
   accountCashTotals: AccountCashTotalManager;
+  accountCashTransfers: AccountCashTransferManager;
   agreementPreview: AgreementPreviewManager;
   amlChecks: AmlCheckManager;
   assetDisbursement: AssetDisbursementManager;
@@ -72,6 +74,7 @@ export class PrimeTrustAPIClient {
     this.accounts = new AccountManager(this);
     this.accountAssetTotals = new AccountAssetTotalManager(this);
     this.accountCashTotals = new AccountCashTotalManager(this);
+    this.accountCashTransfers = new AccountCashTransferManager(this);
     this.agreementPreview = new AgreementPreviewManager(this);
     this.amlChecks = new AmlCheckManager(this);
     this.assetDisbursement = new AssetDisbursementManager(this);

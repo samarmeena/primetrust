@@ -1,6 +1,7 @@
 export * from "./account.js";
 export * from "./account-asset-total.js";
 export * from "./account-cash-total.js";
+export * from "./account-cash-transfer.js";
 export * from "./agreement-preview.js";
 export * from "./aml-check.js";
 export * from "./asset-disbursement.js";
