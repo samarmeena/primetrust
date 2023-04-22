@@ -19,4 +19,5 @@ export * from "./disbursements.js";
 export * from "./funds-transfer-method.js";
 export * from "./kyc-document-check.js";
 export * from "./quote.js";
+export * from "./trade.js";
 export * from "./webhook.js";

@@ -8,4 +8,5 @@ export * from "./credit-card-resource.js";
 export * from "./disbursement.js";
 export * from "./funds-transfer-method.js";
 export * from "./quote.js";
+export * from "./trade.js";
 export * from "./webhook.js";

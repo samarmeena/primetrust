@@ -23,6 +23,7 @@ import {
   FundsTransferMethodManager,
   KycDocumentCheckManager,
   QuoteManager,
+  TradeManager,
   WebhookManager,
 } from "./managers/index.js";
 import type { ClientOptions } from "./types/index.js";
@@ -61,6 +62,7 @@ export class PrimeTrustAPIClient {
   fundsTransferMethods: FundsTransferMethodManager;
   kycDocumentChecks: KycDocumentCheckManager;
   quotes: QuoteManager;
+  trades: TradeManager;
   webhooks: WebhookManager;
 
   constructor(options: ClientOptions) {
@@ -93,6 +95,7 @@ export class PrimeTrustAPIClient {
     this.fundsTransferMethods = new FundsTransferMethodManager(this);
     this.kycDocumentChecks = new KycDocumentCheckManager(this);
     this.quotes = new QuoteManager(this);
+    this.trades = new TradeManager(this);
     this.webhooks = new WebhookManager(this);
 
     this.updateToken();
