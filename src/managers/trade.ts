@@ -34,6 +34,26 @@ export class TradeManager {
     return { ...toCamelCase(resp.data.attributes), id: resp.data.id };
   }
 
+  async settle(id: string, params?: Record<string, string>): Promise<RawTrade> {
+    const resp = await this.client.request<any>({
+      method: "post",
+      params: params,
+      url: `/trades/${id}/settle`,
+    });
+
+    return { ...toCamelCase(resp.data.attributes), id: resp.data.id };
+  }
+
+  async cancel(id: string, params?: Record<string, string>): Promise<RawTrade> {
+    const resp = await this.client.request<any>({
+      method: "post",
+      params: params,
+      url: `/trades/${id}/cancel`,
+    });
+
+    return { ...toCamelCase(resp.data.attributes), id: resp.data.id };
+  }
+
   async create(payload: TradePayload): Promise<RawTrade> {
     const resp = await this.client.request<any>({
       data: {
