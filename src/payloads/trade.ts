@@ -14,4 +14,5 @@ export interface Asset {
   accountId: string;
   amount: string;
   assetId: string;
+  marketValueAmount?: string;
 }
