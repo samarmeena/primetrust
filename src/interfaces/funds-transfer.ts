@@ -1,0 +1,33 @@
+export interface RawFundsTransfer {
+  altCurrencyWireInstructions: string;
+  amount: string;
+  amountExpected: string;
+  cancellationDetails: string;
+  cancelledAt: string;
+  clearsOn: string;
+  contingenciesClearedAt: string;
+  contingenciesClearedOn: string;
+  createdAt: string;
+  currencyType: string;
+  equalityHash: string;
+  fundsSourceName: string;
+  fundsTransferType: string;
+  nachaIndividualId: string;
+  privateMemo: string;
+  receivedChargeback: boolean;
+  receiverName: string;
+  reference: string;
+  reversalDetails: string;
+  reversedAmount: string;
+  reversedAt: string;
+  reviewReasons: string;
+  settledAt: string;
+  settlementDetails: string;
+  signetDepositAddress: string;
+  specialInstructions: string;
+  specialType: string;
+  status: string;
+  updatedAt: string;
+  wireInstructions: string;
+  wireInstructionsIntl: string;
+}

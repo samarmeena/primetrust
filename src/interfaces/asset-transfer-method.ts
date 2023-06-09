@@ -5,7 +5,6 @@ export interface RawAssetTransferMethod {
   createdAt: string;
   currencyType: null;
   disbursementApproved: boolean;
-  id: string;
   inactive: boolean;
   label: null;
   singleUse: boolean;

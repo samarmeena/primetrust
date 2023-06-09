@@ -3,7 +3,6 @@ export interface RawWebhook {
   createdAt: string;
   data: string;
   failures: number;
-  id: string;
   lastRequestAt: string;
   lastResponseCode: number;
   resourceId: string;

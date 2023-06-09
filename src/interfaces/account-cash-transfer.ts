@@ -3,7 +3,6 @@ export interface RawAccountCashTransfer {
   createdAt: string;
   currencyType: string;
   fromAccountId: string;
-  id: string;
   reference?: string;
   reversalDetails: string | null;
   status: string;

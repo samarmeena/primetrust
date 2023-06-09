@@ -10,7 +10,6 @@ export interface RawTrade {
   cancelledAt: string | null;
   createdAt: string;
   expiresAt: string;
-  id: string;
   initiator: TradeInputs;
   initiatorAmount: number;
   initiatorAssetBuyTransactionId: string | null;

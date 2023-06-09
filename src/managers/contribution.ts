@@ -1,44 +1,20 @@
 import type { PrimeTrustAPIClient } from "../client.js";
 import type { RawContribution } from "../interfaces/index.js";
 import type { ContributionPayload } from "../payloads/index.js";
-import { toCamelCase, toSnakeCase } from "../utils/index.js";
+import { convertKeysToSnakeCase, PrimeTrustResponse } from "../utils/index.js";
 
 export class ContributionManager {
   constructor(private client: PrimeTrustAPIClient) {
     // empty constructor
   }
 
-  async get(params?: Record<string, string>): Promise<RawContribution[]> {
-    const resp = await this.client.request<any>({
-      params: params,
-      url: "/contributions",
-    });
-
-    const transform = (data: any) => ({
-      ...toCamelCase(data.attributes),
-      id: data.id,
-    });
-
-    return resp.data.map((d: any) => transform(d));
-  }
-
-  async getById(
-    id: string,
-    params?: Record<string, string>
-  ): Promise<RawContribution> {
-    const resp = await this.client.request<any>({
-      params: params,
-      url: `/contributions/${id}`,
-    });
-
-    return { ...toCamelCase(resp.data.attributes), id: resp.data.id };
-  }
-
-  async create(payload: ContributionPayload): Promise<RawContribution> {
+  async create(
+    payload: ContributionPayload
+  ): Promise<PrimeTrustResponse<RawContribution>> {
     const resp = await this.client.request<any>({
       data: {
         data: {
-          attributes: toSnakeCase(payload),
+          attributes: convertKeysToSnakeCase(payload),
           type: "contributions",
         },
       },
@@ -46,14 +22,16 @@ export class ContributionManager {
       url: "/contributions",
     });
 
-    return { ...toCamelCase(resp.data.attributes), id: resp.data.id };
+    return PrimeTrustResponse(resp.data, resp.included);
   }
 
-  async createToken(payload: ContributionPayload): Promise<RawContribution> {
+  async createToken(
+    payload: ContributionPayload
+  ): Promise<PrimeTrustResponse<RawContribution>> {
     const resp = await this.client.request<any>({
       data: {
         data: {
-          attributes: toSnakeCase(payload),
+          attributes: convertKeysToSnakeCase(payload),
           type: "contributions",
         },
       },
@@ -61,6 +39,29 @@ export class ContributionManager {
       url: "/contributions/token",
     });
 
-    return { ...toCamelCase(resp.data.attributes), id: resp.data.id };
+    return PrimeTrustResponse(resp.data, resp.included);
+  }
+
+  async get(
+    id: string,
+    params?: Record<string, string>
+  ): Promise<PrimeTrustResponse<RawContribution>> {
+    const resp = await this.client.request<any>({
+      params: params,
+      url: `/contributions/${id}`,
+    });
+
+    return PrimeTrustResponse(resp.data, resp.included);
+  }
+
+  async getAll(
+    params?: Record<string, string>
+  ): Promise<PrimeTrustResponse<RawContribution>[]> {
+    const resp = await this.client.request<any>({
+      params: params,
+      url: "/contributions",
+    });
+
+    return resp.data.map((d: any) => PrimeTrustResponse(d));
   }
 }

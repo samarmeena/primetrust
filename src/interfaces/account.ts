@@ -9,7 +9,6 @@ export interface RawAccount {
   disbursementsFrozen: boolean;
   freezeNotRequiredActions: RawFreezeAction[];
   freezeRequiredActions: RawFreezeAction[];
-  id: string;
   name: string;
   number: string;
   offlineColdStorage: boolean | null;

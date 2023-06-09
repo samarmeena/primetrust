@@ -4,50 +4,22 @@ import type {
   AssetTransferMethodIncomingPayload,
   AssetTransferMethodOutgoingPayload,
 } from "../payloads/index.js";
-import { toCamelCase, toSnakeCase } from "../utils/index.js";
+import { convertKeysToSnakeCase, PrimeTrustResponse } from "../utils/index.js";
 
 export class AssetTransferMethodManager {
   constructor(private client: PrimeTrustAPIClient) {
     // empty constructor
   }
 
-  async get(
-    params?: Record<string, string>
-  ): Promise<RawAssetTransferMethod[]> {
-    const resp = await this.client.request<any>({
-      params: params,
-      url: "/asset-transfer-methods",
-    });
-
-    const transform = (data: any) => ({
-      ...toCamelCase(data.attributes),
-      id: data.id,
-    });
-
-    return resp.data.map((d: any) => transform(d));
-  }
-
-  async getById(
-    id: string,
-    params?: Record<string, string>
-  ): Promise<RawAssetTransferMethod> {
-    const resp = await this.client.request<any>({
-      params: params,
-      url: `/asset-transfer-methods/${id}`,
-    });
-
-    return { ...toCamelCase(resp.data.attributes), id: resp.data.id };
-  }
-
   async create(
     payload:
       | AssetTransferMethodIncomingPayload
       | AssetTransferMethodOutgoingPayload
-  ): Promise<RawAssetTransferMethod> {
+  ): Promise<PrimeTrustResponse<RawAssetTransferMethod>> {
     const resp = await this.client.request<any>({
       data: {
         data: {
-          attributes: toSnakeCase(payload),
+          attributes: convertKeysToSnakeCase(payload),
           type: "asset-transfer-methods",
         },
       },
@@ -55,6 +27,29 @@ export class AssetTransferMethodManager {
       url: "/asset-transfer-methods",
     });
 
-    return { ...toCamelCase(resp.data.attributes), id: resp.data.id };
+    return PrimeTrustResponse(resp.data, resp.included);
+  }
+
+  async get(
+    id: string,
+    params?: Record<string, string>
+  ): Promise<PrimeTrustResponse<RawAssetTransferMethod>> {
+    const resp = await this.client.request<any>({
+      params: params,
+      url: `/asset-transfer-methods/${id}`,
+    });
+
+    return PrimeTrustResponse(resp.data, resp.included);
+  }
+
+  async getAll(
+    params?: Record<string, string>
+  ): Promise<PrimeTrustResponse<RawAssetTransferMethod>[]> {
+    const resp = await this.client.request<any>({
+      params: params,
+      url: "/asset-transfer-methods",
+    });
+
+    return resp.data.map((d: any) => PrimeTrustResponse(d));
   }
 }

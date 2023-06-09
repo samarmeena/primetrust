@@ -2,7 +2,6 @@ export interface RawContactFundsTransferReference {
   accountId: string;
   altCurrencyWireInstructions: RawAltCurrencyWireInstructions;
   contactId: string;
-  id: string;
   reference: string;
   signetDepositAddress: string;
   wireInstructions: RawWireInstructions;

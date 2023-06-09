@@ -20,7 +20,6 @@ export interface RawContact {
   etContactId: null;
   firstName: string;
   geolocation: null;
-  id: string;
   identityConfirmed: boolean;
   identityDocumentsVerified: boolean;
   identityFingerprint: string;

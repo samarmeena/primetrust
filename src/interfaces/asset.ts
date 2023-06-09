@@ -7,7 +7,6 @@ export interface RawAsset {
   disbursementNetworkFee: null;
   fireblocksAssetId: null;
   globallyAvailable: boolean;
-  id: string;
   innotrustId: string;
   internal: boolean;
   label: string;

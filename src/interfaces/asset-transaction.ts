@@ -11,7 +11,6 @@ export interface RawAssetTransaction {
   currencyType: string;
   data: string;
   effectiveAt: string;
-  id: string;
   settledAt: string;
   settledOn: string;
   tradedOn: string;

@@ -5,7 +5,6 @@ export interface RawAssetTransfer {
   contingenciesClearedOn: string;
   createdAt: string;
   hotTransfer: boolean;
-  id: string;
   reconciledAt: string | null;
   settlementDetails: string;
   status: string;

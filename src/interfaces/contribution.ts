@@ -7,7 +7,6 @@ export interface RawContribution {
   currencyType: string;
   fundsTransferDetails: string;
   fundsTransferType: string;
-  id: string;
   message: string;
   paymentDetails: string;
   paymentType: string;

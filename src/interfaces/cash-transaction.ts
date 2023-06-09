@@ -8,7 +8,6 @@ export interface RawCashTransaction {
   currencyType: string;
   effectiveAt: string;
   fundsTransferType: string;
-  id: string;
   opsReference: null;
   settledAt: string;
   settledOn: string;

@@ -1,7 +1,7 @@
 import type { PrimeTrustAPIClient } from "../client.js";
 import type { RawAgreementPreview } from "../interfaces/index.js";
 import type { AccountPayload } from "../payloads/index.js";
-import { toSnakeCase } from "../utils/index.js";
+import { convertKeysToSnakeCase } from "../utils/index.js";
 
 export class AgreementPreviewManager {
   constructor(private client: PrimeTrustAPIClient) {
@@ -12,7 +12,7 @@ export class AgreementPreviewManager {
     const resp = await this.client.request<any>({
       data: {
         data: {
-          attributes: toSnakeCase(payload),
+          attributes: convertKeysToSnakeCase(payload),
           type: "account",
         },
       },

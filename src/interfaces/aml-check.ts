@@ -2,10 +2,9 @@ export interface RawAmlCheck {
   createdAt: string;
   exceptionDetails: string;
   exceptions: string[];
-  id: string;
   manualReviewResult: null;
   name: string;
-  socureReferenceID: string;
+  socureReferenceId: string;
   status: string;
   updatedAt: string;
 }

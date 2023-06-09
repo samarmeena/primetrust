@@ -1,7 +1,7 @@
 import type { PrimeTrustAPIClient } from "../client.js";
 import type { RawAccount } from "../interfaces/index.js";
 import type { AccountPayload } from "../payloads/index.js";
-import { toCamelCase, toSnakeCase } from "../utils/index.js";
+import { convertKeysToSnakeCase, PrimeTrustResponse } from "../utils/index.js";
 
 export class AccountManager {
   constructor(private client: PrimeTrustAPIClient) {
@@ -14,7 +14,7 @@ export class AccountManager {
     const resp = await this.client.request<any>({
       data: {
         data: {
-          attributes: toSnakeCase(payload),
+          attributes: convertKeysToSnakeCase(payload),
           type: "account",
         },
       },
@@ -25,11 +25,13 @@ export class AccountManager {
     return { content: resp.data.attributes.content, id: resp.data.id };
   }
 
-  async create(payload: AccountPayload): Promise<RawAccount> {
+  async create(
+    payload: AccountPayload
+  ): Promise<PrimeTrustResponse<RawAccount>> {
     const resp = await this.client.request<any>({
       data: {
         data: {
-          attributes: toSnakeCase(payload),
+          attributes: convertKeysToSnakeCase(payload),
           type: "account",
         },
       },
@@ -37,14 +39,29 @@ export class AccountManager {
       url: "/accounts",
     });
 
-    return { ...toCamelCase(resp.data.attributes), id: resp.data.id };
+    return PrimeTrustResponse(resp.data, resp.included);
   }
 
-  async get(accountId: string): Promise<RawAccount> {
+  async get(
+    id: string,
+    params?: Record<string, string>
+  ): Promise<PrimeTrustResponse<RawAccount>> {
     const resp = await this.client.request<any>({
-      url: `/accounts/${accountId}`,
+      params: params,
+      url: `/accounts/${id}`,
     });
 
-    return { ...toCamelCase(resp.data.attributes), id: resp.data.id };
+    return PrimeTrustResponse(resp.data, resp.included);
+  }
+
+  async getAll(
+    params?: Record<string, string>
+  ): Promise<PrimeTrustResponse<RawAccount>[]> {
+    const resp = await this.client.request<any>({
+      params: params,
+      url: "/accounts",
+    });
+
+    return resp.data.map((d: any) => PrimeTrustResponse(d));
   }
 }

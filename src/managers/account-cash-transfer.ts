@@ -1,48 +1,20 @@
 import type { PrimeTrustAPIClient } from "../client.js";
 import type { RawAccountCashTransfer } from "../interfaces/index.js";
 import type { AccountCashTransferPayload } from "../payloads/index.js";
-import { toCamelCase, toSnakeCase } from "../utils/index.js";
+import { convertKeysToSnakeCase, PrimeTrustResponse } from "../utils/index.js";
 
 export class AccountCashTransferManager {
   constructor(private client: PrimeTrustAPIClient) {
     // empty constructor
   }
 
-  async get(
-    params?: Record<string, string>
-  ): Promise<RawAccountCashTransfer[]> {
-    const resp = await this.client.request<any>({
-      params: params,
-      url: "/account-cash-transfers",
-    });
-
-    const transform = (data: any) => ({
-      ...toCamelCase(data.attributes),
-      id: data.id,
-    });
-
-    return resp.data.map((d: any) => transform(d));
-  }
-
-  async getById(
-    id: string,
-    params?: Record<string, string>
-  ): Promise<RawAccountCashTransfer> {
-    const resp = await this.client.request<any>({
-      params: params,
-      url: `/account-cash-transfers/${id}`,
-    });
-
-    return { ...toCamelCase(resp.data.attributes), id: resp.data.id };
-  }
-
   async create(
     payload: AccountCashTransferPayload
-  ): Promise<RawAccountCashTransfer> {
+  ): Promise<PrimeTrustResponse<RawAccountCashTransfer>> {
     const resp = await this.client.request<any>({
       data: {
         data: {
-          attributes: toSnakeCase(payload),
+          attributes: convertKeysToSnakeCase(payload),
           type: "account-cash-transfers",
         },
       },
@@ -50,6 +22,29 @@ export class AccountCashTransferManager {
       url: "/account-cash-transfers",
     });
 
-    return { ...toCamelCase(resp.data.attributes), id: resp.data.id };
+    return PrimeTrustResponse(resp.data, resp.included);
+  }
+
+  async get(
+    id: string,
+    params?: Record<string, string>
+  ): Promise<PrimeTrustResponse<RawAccountCashTransfer>> {
+    const resp = await this.client.request<any>({
+      params: params,
+      url: `/account-cash-transfers/${id}`,
+    });
+
+    return PrimeTrustResponse(resp.data, resp.included);
+  }
+
+  async getAll(
+    params?: Record<string, string>
+  ): Promise<PrimeTrustResponse<RawAccountCashTransfer>[]> {
+    const resp = await this.client.request<any>({
+      params: params,
+      url: "/account-cash-transfers",
+    });
+
+    return resp.data.map((d: any) => PrimeTrustResponse(d));
   }
 }

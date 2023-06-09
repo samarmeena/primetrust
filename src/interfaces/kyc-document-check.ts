@@ -3,7 +3,6 @@ export interface RawKycDocumentCheck {
   exceptions: string[];
   expiresOn: string;
   failureDetails: string;
-  id: string;
   identity: boolean;
   identityPhoto: boolean;
   kycDocumentCountry: string;
@@ -15,7 +14,7 @@ export interface RawKycDocumentCheck {
   parsedPhysicalAddress: null;
   proofOfAddress: boolean;
   socureExceptionDetails: null;
-  socureReferenceID: string;
+  socureReferenceId: string;
   status: string;
   updatedAt: string;
 }

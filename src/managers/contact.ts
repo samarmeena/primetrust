@@ -1,18 +1,18 @@
 import type { PrimeTrustAPIClient } from "../client.js";
 import type { RawContact } from "../interfaces/index.js";
 import type { OwnerPayload } from "../payloads/account.js";
-import { toCamelCase, toSnakeCase } from "../utils/index.js";
+import { convertKeysToSnakeCase, PrimeTrustResponse } from "../utils/index.js";
 
 export class ContactManager {
   constructor(private client: PrimeTrustAPIClient) {
     // empty constructor
   }
 
-  async create(payload: OwnerPayload): Promise<RawContact> {
+  async create(payload: OwnerPayload): Promise<PrimeTrustResponse<RawContact>> {
     const resp = await this.client.request<any>({
       data: {
         data: {
-          attributes: toSnakeCase(payload),
+          attributes: convertKeysToSnakeCase(payload),
           type: "contacts",
         },
       },
@@ -20,31 +20,40 @@ export class ContactManager {
       url: "/contacts",
     });
 
-    return { ...toCamelCase(resp.data.attributes), id: resp.data.id };
+    return PrimeTrustResponse(resp.data, resp.included);
   }
 
-  async get(params?: Record<string, string>): Promise<RawContact[]> {
+  async get(
+    id: string,
+    params?: Record<string, string>
+  ): Promise<PrimeTrustResponse<RawContact>> {
+    const resp = await this.client.request<any>({
+      params: params,
+      url: `/contacts/${id}`,
+    });
+
+    return PrimeTrustResponse(resp.data, resp.included);
+  }
+
+  async getAll(
+    params?: Record<string, string>
+  ): Promise<PrimeTrustResponse<RawContact>[]> {
     const resp = await this.client.request<any>({
       params: params,
       url: "/contacts",
     });
 
-    const transform = (data: any) => ({
-      ...toCamelCase(data.attributes),
-      id: data.id,
-    });
-
-    return resp.data.map((d: any) => transform(d));
+    return resp.data.map((d: any) => PrimeTrustResponse(d));
   }
 
   async patch(data: {
     contactId: string;
     payload: Partial<OwnerPayload>;
-  }): Promise<RawContact> {
+  }): Promise<PrimeTrustResponse<RawContact>> {
     const resp = await this.client.request<any>({
       data: {
         data: {
-          attributes: toSnakeCase(data.payload),
+          attributes: convertKeysToSnakeCase(data.payload),
           type: "contacts",
         },
       },
@@ -52,6 +61,6 @@ export class ContactManager {
       url: `/contacts/${data.contactId}`,
     });
 
-    return { ...toCamelCase(resp.data.attributes), id: resp.data.id };
+    return PrimeTrustResponse(resp.data, resp.included);
   }
 }

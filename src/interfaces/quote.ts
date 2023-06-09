@@ -3,18 +3,17 @@ export interface RawQuote {
   baseAmount: number;
   createdAt: string;
   delayedSettlement: boolean;
-  executedAt: null;
+  executedAt: string | null;
   expiresAt: string;
   feeAmount: number;
   hot: boolean;
-  id: string;
   integratorSettled: boolean;
   pricePerUnit: number;
-  rejectedAt: null;
-  settledAt: null;
+  rejectedAt: string | null;
+  settledAt: string | null;
   status: string;
   totalAmount: number;
-  tradeID: null;
+  tradeId: string | null;
   transactionType: string;
   unitCount: number;
 }
