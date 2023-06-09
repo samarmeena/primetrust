@@ -25,6 +25,24 @@ export class CreditCardResourceManager {
     return PrimeTrustResponse(resp.data, resp.included);
   }
 
+  async disable(data: {
+    id: string;
+    reason: string;
+  }): Promise<PrimeTrustResponse<RawCreditCardResource>> {
+    const resp = await this.client.request<any>({
+      data: {
+        data: {
+          attributes: { reason: data.reason },
+          type: "credit-card-resources",
+        },
+      },
+      method: "post",
+      url: `/credit-card-resources/${data.id}/disable`,
+    });
+
+    return PrimeTrustResponse(resp.data, resp.included);
+  }
+
   async get(
     id: string,
     params?: Record<string, string>
