@@ -1,10 +1,11 @@
 export interface RawCreditCardResource {
   contactId: string;
-  fundsTransferMethodId: string | null;
+  fundsTransferMethodId: string;
   microserviceEnabled: boolean;
-  reference: null;
+  reference: string;
   resourceTokenHash: string;
   status: string;
   threeDsRequired: boolean;
   token: string;
+  vantivToken: string;
 }

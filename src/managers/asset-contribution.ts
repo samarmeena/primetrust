@@ -1,0 +1,32 @@
+import type { PrimeTrustAPIClient } from "../client.js";
+import type { RawAssetContribution } from "../interfaces/index.js";
+import { PrimeTrustResponse } from "../utils/index.js";
+
+export class AssetContributionManager {
+  constructor(private client: PrimeTrustAPIClient) {
+    // empty constructor
+  }
+
+  async get(
+    id: string,
+    params?: Record<string, string>
+  ): Promise<PrimeTrustResponse<RawAssetContribution>> {
+    const resp = await this.client.request<any>({
+      params: params,
+      url: `/asset-contributions/${id}`,
+    });
+
+    return PrimeTrustResponse(resp.data, resp.included);
+  }
+
+  async getAll(
+    params?: Record<string, string>
+  ): Promise<PrimeTrustResponse<RawAssetContribution>[]> {
+    const resp = await this.client.request<any>({
+      params: params,
+      url: "/asset-contributions",
+    });
+
+    return resp.data.map((d: any) => PrimeTrustResponse(d));
+  }
+}
