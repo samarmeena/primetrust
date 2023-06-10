@@ -1,7 +1,7 @@
 import type { PrimeTrustAPIClient } from "../client.js";
 import type { RawFundsTransferMethod } from "../interfaces/index.js";
 import type { FundsTransferMethodPayload } from "../payloads/index.js";
-import { PrimeTrustDataType } from "../types/enum.js";
+import { PrimeTrustDataType } from "../types/enum/index.js";
 import { convertKeysToSnakeCase, PrimeTrustResponse } from "../utils/index.js";
 
 export class FundsTransferMethodManager {

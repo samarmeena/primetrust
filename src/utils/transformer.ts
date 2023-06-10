@@ -4,21 +4,10 @@ import type {
   Include,
   IncludeDataType,
   PrimeTrustDataType,
+  RelationshipData,
 } from "../types/index.js";
 
 const { camelCase, snakeCase } = _;
-
-export interface RelationDataData {
-  id: string;
-  type: string;
-}
-
-export interface RelationshipData {
-  data?: RelationDataData | RelationDataData[];
-  links?: {
-    related: string;
-  };
-}
 
 export interface PrimeTrustResponse<T> {
   attributes: T;
