@@ -17,3 +17,11 @@ export interface AssetTransferMethodOutgoingPayload {
   transferDirection: "outgoing";
   walletAddress: string;
 }
+
+export interface AssetTransferMethodPatchPayload {
+  acquisitionOn?: Date;
+  constBasis?: string;
+  currencyType?: string;
+  inactive?: boolean;
+  label?: string;
+}

@@ -9,7 +9,8 @@ export class ContactFundsTransferReferenceManager {
   }
 
   async create(
-    payload: ContactFundsTransferReferencePayload
+    payload: ContactFundsTransferReferencePayload,
+    params?: Record<string, string>
   ): Promise<PrimeTrustResponse<RawContactFundsTransferReference>> {
     const resp = await this.client.request<any>({
       data: {
@@ -19,6 +20,7 @@ export class ContactFundsTransferReferenceManager {
         },
       },
       method: "post",
+      params: params,
       url: "/contact-funds-transfer-references",
     });
 

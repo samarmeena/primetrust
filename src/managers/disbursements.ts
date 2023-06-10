@@ -9,7 +9,8 @@ export class DisbursementManager {
   }
 
   async create(
-    payload: DisbursementPayload
+    payload: DisbursementPayload,
+    params?: Record<string, string>
   ): Promise<PrimeTrustResponse<RawDisbursement>> {
     const resp = await this.client.request<any>({
       data: {
@@ -19,6 +20,7 @@ export class DisbursementManager {
         },
       },
       method: "post",
+      params: params,
       url: "/disbursements",
     });
 

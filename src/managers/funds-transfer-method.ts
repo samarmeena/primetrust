@@ -23,7 +23,9 @@ export class FundsTransferMethodManager {
   }
 
   async create(
-    payload: FundsTransferMethodPayload
+    payload: FundsTransferMethodPayload,
+
+    params?: Record<string, string>
   ): Promise<PrimeTrustResponse<RawFundsTransferMethod>> {
     const resp = await this.client.request<any>({
       data: {
@@ -33,6 +35,7 @@ export class FundsTransferMethodManager {
         },
       },
       method: "post",
+      params: params,
       url: "/funds-transfer-methods",
     });
 

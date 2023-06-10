@@ -9,7 +9,8 @@ export class AccountCashTransferManager {
   }
 
   async create(
-    payload: AccountCashTransferPayload
+    payload: AccountCashTransferPayload,
+    params?: Record<string, string>
   ): Promise<PrimeTrustResponse<RawAccountCashTransfer>> {
     const resp = await this.client.request<any>({
       data: {
@@ -19,6 +20,7 @@ export class AccountCashTransferManager {
         },
       },
       method: "post",
+      params: params,
       url: "/account-cash-transfers",
     });
 

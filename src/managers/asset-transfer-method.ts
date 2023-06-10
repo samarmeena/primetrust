@@ -3,6 +3,7 @@ import type { RawAssetTransferMethod } from "../interfaces/index.js";
 import type {
   AssetTransferMethodIncomingPayload,
   AssetTransferMethodOutgoingPayload,
+  AssetTransferMethodPatchPayload,
 } from "../payloads/index.js";
 import { convertKeysToSnakeCase, PrimeTrustResponse } from "../utils/index.js";
 
@@ -14,7 +15,8 @@ export class AssetTransferMethodManager {
   async create(
     payload:
       | AssetTransferMethodIncomingPayload
-      | AssetTransferMethodOutgoingPayload
+      | AssetTransferMethodOutgoingPayload,
+    params?: Record<string, string>
   ): Promise<PrimeTrustResponse<RawAssetTransferMethod>> {
     const resp = await this.client.request<any>({
       data: {
@@ -24,6 +26,7 @@ export class AssetTransferMethodManager {
         },
       },
       method: "post",
+      params: params,
       url: "/asset-transfer-methods",
     });
 
@@ -51,5 +54,25 @@ export class AssetTransferMethodManager {
     });
 
     return resp.data.map((d: any) => PrimeTrustResponse(d));
+  }
+
+  async patch(
+    id: string,
+    payload: AssetTransferMethodPatchPayload,
+    params?: Record<string, string>
+  ): Promise<PrimeTrustResponse<RawAssetTransferMethod>> {
+    const resp = await this.client.request<any>({
+      data: {
+        data: {
+          attributes: convertKeysToSnakeCase(payload),
+          type: "asset-transfer-methods",
+        },
+      },
+      method: "patch",
+      params: params,
+      url: `/asset-transfer-methods/${id}`,
+    });
+
+    return PrimeTrustResponse(resp.data, resp.included);
   }
 }

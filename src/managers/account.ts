@@ -26,7 +26,8 @@ export class AccountManager {
   }
 
   async create(
-    payload: AccountPayload
+    payload: AccountPayload,
+    params?: Record<string, string>
   ): Promise<PrimeTrustResponse<RawAccount>> {
     const resp = await this.client.request<any>({
       data: {
@@ -36,6 +37,7 @@ export class AccountManager {
         },
       },
       method: "post",
+      params: params,
       url: "/accounts",
     });
 

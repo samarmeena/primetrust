@@ -9,7 +9,8 @@ export class CreditCardResourceManager {
   }
 
   async create(
-    payload: CreditCardResourcePayload
+    payload: CreditCardResourcePayload,
+    params?: Record<string, string>
   ): Promise<PrimeTrustResponse<RawCreditCardResource>> {
     const resp = await this.client.request<any>({
       data: {
@@ -19,6 +20,7 @@ export class CreditCardResourceManager {
         },
       },
       method: "post",
+      params: params,
       url: "/credit-card-resources",
     });
 

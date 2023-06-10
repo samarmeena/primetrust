@@ -8,7 +8,10 @@ export class ContactManager {
     // empty constructor
   }
 
-  async create(payload: OwnerPayload): Promise<PrimeTrustResponse<RawContact>> {
+  async create(
+    payload: OwnerPayload,
+    params?: Record<string, string>
+  ): Promise<PrimeTrustResponse<RawContact>> {
     const resp = await this.client.request<any>({
       data: {
         data: {
@@ -17,6 +20,7 @@ export class ContactManager {
         },
       },
       method: "post",
+      params: params,
       url: "/contacts",
     });
 

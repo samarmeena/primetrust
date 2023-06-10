@@ -172,13 +172,19 @@ export function isIncludeOfType<T extends keyof IncludeMap>(
 export function GetIncludeOfType<T extends keyof IncludeMap>(
   includes: Include<any>[],
   type: T
-) {
-  return includes.find((t): t is Include<T> => t.type === type);
+): Include<T> {
+  const find = includes.find((t): t is Include<T> => t.type === type);
+  if (!find) {
+    throw Error(
+      `Could not find include type ${type} in ${JSON.stringify(includes)}`
+    );
+  }
+  return find;
 }
 
 export function GetAllIncludeOfType<T extends keyof IncludeMap>(
   includes: Include<any>[],
   type: T
-) {
+): Include<T>[] {
   return includes.filter((t): t is Include<T> => t.type === type);
 }

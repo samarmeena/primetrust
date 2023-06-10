@@ -9,7 +9,8 @@ export class ContributionManager {
   }
 
   async create(
-    payload: ContributionPayload
+    payload: ContributionPayload,
+    params?: Record<string, string>
   ): Promise<PrimeTrustResponse<RawContribution>> {
     const resp = await this.client.request<any>({
       data: {
@@ -19,6 +20,7 @@ export class ContributionManager {
         },
       },
       method: "post",
+      params: params,
       url: "/contributions",
     });
 

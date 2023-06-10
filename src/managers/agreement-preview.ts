@@ -8,7 +8,10 @@ export class AgreementPreviewManager {
     // empty constructor
   }
 
-  async create(payload: AccountPayload): Promise<RawAgreementPreview> {
+  async create(
+    payload: AccountPayload,
+    params?: Record<string, string>
+  ): Promise<RawAgreementPreview> {
     const resp = await this.client.request<any>({
       data: {
         data: {
@@ -17,6 +20,7 @@ export class AgreementPreviewManager {
         },
       },
       method: "post",
+      params: params,
       url: "/agreement-previews",
     });
 

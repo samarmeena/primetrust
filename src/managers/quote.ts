@@ -8,7 +8,10 @@ export class QuoteManager {
     // empty constructor
   }
 
-  async create(payload: QuotePayload): Promise<PrimeTrustResponse<RawQuote>> {
+  async create(
+    payload: QuotePayload,
+    params?: Record<string, string>
+  ): Promise<PrimeTrustResponse<RawQuote>> {
     const resp = await this.client.request<any>({
       data: {
         data: {
@@ -17,6 +20,7 @@ export class QuoteManager {
         },
       },
       method: "post",
+      params: params,
       url: "/quotes",
     });
 

@@ -21,7 +21,10 @@ export class TradeManager {
     return PrimeTrustResponse(resp.data, resp.included);
   }
 
-  async create(payload: TradePayload): Promise<PrimeTrustResponse<RawTrade>> {
+  async create(
+    payload: TradePayload,
+    params?: Record<string, string>
+  ): Promise<PrimeTrustResponse<RawTrade>> {
     const resp = await this.client.request<any>({
       data: {
         data: {
@@ -30,6 +33,7 @@ export class TradeManager {
         },
       },
       method: "post",
+      params: params,
       url: "/trades",
     });
 
