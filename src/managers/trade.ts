@@ -25,7 +25,7 @@ export class TradeManager {
 
     const response = new PrimeTrustResponse<PrimeTrustDataType.trades>(resp);
     if (!response.one) {
-      throw new PrimeTrustError("Failed to retrieve the created resource");
+      throw new PrimeTrustError("Failed to retrieve the resource");
     }
 
     return response.one;
@@ -34,7 +34,7 @@ export class TradeManager {
   async create(
     payload: TradePayload,
     params?: Record<string, string>
-  ): Promise<PrimeTrustEntry<PrimeTrustDataType.trades> | undefined> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.trades>> {
     const resp = await this.client.request<any>({
       data: {
         data: {
@@ -50,7 +50,7 @@ export class TradeManager {
     const response = new PrimeTrustResponse<PrimeTrustDataType.trades>(resp);
 
     if (!response.one) {
-      throw new PrimeTrustError("Failed to retrieve the created resource");
+      throw new PrimeTrustError("Failed to retrieve the resource");
     }
 
     return response.one;
@@ -95,7 +95,7 @@ export class TradeManager {
 
     const response = new PrimeTrustResponse<PrimeTrustDataType.trades>(resp);
     if (!response.one) {
-      throw new PrimeTrustError("Failed to retrieve the created resource");
+      throw new PrimeTrustError("Failed to retrieve the resource");
     }
 
     return response.one;

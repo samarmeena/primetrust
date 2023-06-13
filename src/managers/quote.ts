@@ -32,7 +32,7 @@ export class QuoteManager {
     const response = new PrimeTrustResponse<PrimeTrustDataType.quotes>(resp);
 
     if (!response.one) {
-      throw new PrimeTrustError("Failed to retrieve the created resource");
+      throw new PrimeTrustError("Failed to retrieve the resource");
     }
 
     return response.one;
@@ -50,7 +50,7 @@ export class QuoteManager {
 
     const response = new PrimeTrustResponse<PrimeTrustDataType.quotes>(resp);
     if (!response.one) {
-      throw new PrimeTrustError("Failed to retrieve the created resource");
+      throw new PrimeTrustError("Failed to retrieve the resource");
     }
 
     return response.one;

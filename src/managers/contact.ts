@@ -31,7 +31,7 @@ export class ContactManager {
 
     const response = new PrimeTrustResponse<PrimeTrustDataType.contacts>(resp);
     if (!response.one) {
-      throw new PrimeTrustError("Failed to retrieve the created resource");
+      throw new PrimeTrustError("Failed to retrieve the resource");
     }
 
     return response.one;
@@ -81,7 +81,7 @@ export class ContactManager {
 
     const response = new PrimeTrustResponse<PrimeTrustDataType.contacts>(resp);
     if (!response.one) {
-      throw new PrimeTrustError("Failed to retrieve the created resource");
+      throw new PrimeTrustError("Failed to retrieve the resource");
     }
 
     return response.one;

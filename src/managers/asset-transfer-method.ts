@@ -38,7 +38,7 @@ export class AssetTransferMethodManager {
     const response =
       new PrimeTrustResponse<PrimeTrustDataType.assetTransferMethods>(resp);
     if (!response.one) {
-      throw new PrimeTrustError("Failed to retrieve the created resource");
+      throw new PrimeTrustError("Failed to retrieve the resource");
     }
 
     return response.one;
@@ -96,7 +96,7 @@ export class AssetTransferMethodManager {
       new PrimeTrustResponse<PrimeTrustDataType.assetTransferMethods>(resp);
 
     if (!response.one) {
-      throw new PrimeTrustError("Failed to retrieve the created resource");
+      throw new PrimeTrustError("Failed to retrieve the resource");
     }
 
     return response.one;

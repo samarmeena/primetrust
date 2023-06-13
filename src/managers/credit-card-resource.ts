@@ -33,7 +33,7 @@ export class CreditCardResourceManager {
       new PrimeTrustResponse<PrimeTrustDataType.creditCardResources>(resp);
 
     if (!response.one) {
-      throw new PrimeTrustError("Failed to retrieve the created resource");
+      throw new PrimeTrustError("Failed to retrieve the resource");
     }
 
     return response.one;
@@ -58,7 +58,7 @@ export class CreditCardResourceManager {
       new PrimeTrustResponse<PrimeTrustDataType.creditCardResources>(resp);
 
     if (!response.one) {
-      throw new PrimeTrustError("Failed to retrieve the created resource");
+      throw new PrimeTrustError("Failed to retrieve the resource");
     }
 
     return response.one;
@@ -98,9 +98,7 @@ export class CreditCardResourceManager {
   async refreshToken(
     id: string,
     params?: Record<string, string>
-  ): Promise<
-    PrimeTrustEntry<PrimeTrustDataType.creditCardResources> | undefined
-  > {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.creditCardResources>> {
     const resp = await this.client.request<any>({
       method: "post",
       params: params,
@@ -109,6 +107,10 @@ export class CreditCardResourceManager {
 
     const response =
       new PrimeTrustResponse<PrimeTrustDataType.creditCardResources>(resp);
+
+    if (!response.one) {
+      throw new PrimeTrustError("Failed to retrieve the resource");
+    }
 
     return response.one;
   }

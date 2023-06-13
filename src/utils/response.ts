@@ -25,6 +25,15 @@ export class PrimeTrustEntityRelation<T extends keyof RawMap> {
     //
   }
 
+  has(type: IncludeDataType): boolean {
+    const relation = this.raw.relationships[camelCase(type)]?.data;
+    if (!relation || relation === null) {
+      return false;
+    }
+
+    return true;
+  }
+
   get<X extends keyof RawMap>(type: IncludeDataType): PrimeTrustRelation<X> {
     const relation = this.raw.relationships[camelCase(type)]?.data;
     if (!relation) {
