@@ -11,7 +11,7 @@ export class AuthorizationGroupManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustEntry<PrimeTrustDataType.authorizationGroups>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.authorizationGroups> | undefined> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/authorization-groups/${id}`,

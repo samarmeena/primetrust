@@ -11,7 +11,7 @@ export class IraDistributionManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustEntry<PrimeTrustDataType.iraDistributions>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.iraDistributions> | undefined> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/ira-distributions/${id}`,

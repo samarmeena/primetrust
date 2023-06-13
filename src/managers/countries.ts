@@ -11,7 +11,7 @@ export class CountriesManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustEntry<PrimeTrustDataType.countries>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.countries> | undefined> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/countries/${id}`,

@@ -11,7 +11,7 @@ export class AccountCashTotalManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustEntry<PrimeTrustDataType.accountCashTotals>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.accountCashTotals> | undefined> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/account-cash-totals/${id}`,

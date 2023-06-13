@@ -11,7 +11,7 @@ export class KycActionItemManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustEntry<PrimeTrustDataType.kycActionItems>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.kycActionItems> | undefined> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/kyc-action-items/${id}`,

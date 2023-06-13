@@ -11,7 +11,7 @@ export class UserInvitationManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustEntry<PrimeTrustDataType.userInvitations>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.userInvitations> | undefined> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/user-invitations/${id}`,

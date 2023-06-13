@@ -11,7 +11,7 @@ export class AmlCheckManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustEntry<PrimeTrustDataType.amlChecks>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.amlChecks> | undefined> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/aml-checks/${id}`,

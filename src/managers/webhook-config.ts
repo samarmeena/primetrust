@@ -11,7 +11,7 @@ export class WebhookConfigManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustEntry<PrimeTrustDataType.webhookConfigs>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.webhookConfigs> | undefined> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/webhook-configs/${id}`,

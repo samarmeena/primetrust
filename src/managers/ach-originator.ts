@@ -11,7 +11,7 @@ export class AchOriginatorManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustEntry<PrimeTrustDataType.achOriginators>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.achOriginators> | undefined> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/ach-originators/${id}`,

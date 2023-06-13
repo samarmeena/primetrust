@@ -11,7 +11,7 @@ export class ChargebackManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustEntry<PrimeTrustDataType.chargebacks>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.chargebacks> | undefined> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/chargebacks/${id}`,

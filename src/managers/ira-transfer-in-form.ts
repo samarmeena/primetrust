@@ -11,7 +11,7 @@ export class IraTransferInFormManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustEntry<PrimeTrustDataType.iraTransferInForms>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.iraTransferInForms> | undefined> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/ira-transfer-in-forms/${id}`,

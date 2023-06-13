@@ -11,7 +11,7 @@ export class InternalAssetTransferReviewManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustEntry<PrimeTrustDataType.internalAssetTransferReviews>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.internalAssetTransferReviews> | undefined> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/internal-asset-transfer-reviews/${id}`,

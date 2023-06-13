@@ -11,7 +11,7 @@ export class ContingentHoldManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustEntry<PrimeTrustDataType.contingentHolds>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.contingentHolds> | undefined> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/contingent-holds/${id}`,

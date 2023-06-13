@@ -2,7 +2,11 @@ import type { PrimeTrustAPIClient } from "../client.js";
 import type { TradePayload } from "../payloads/index.js";
 import type { PrimeTrustDataType } from "../types/index.js";
 import type { PrimeTrustEntry } from "../utils/index.js";
-import { convertKeysToSnakeCase, PrimeTrustResponse } from "../utils/index.js";
+import {
+  convertKeysToSnakeCase,
+  PrimeTrustError,
+  PrimeTrustResponse,
+} from "../utils/index.js";
 
 export class TradeManager {
   constructor(private client: PrimeTrustAPIClient) {
@@ -20,6 +24,9 @@ export class TradeManager {
     });
 
     const response = new PrimeTrustResponse<PrimeTrustDataType.trades>(resp);
+    if (!response.one) {
+      throw new PrimeTrustError("Failed to retrieve the created resource");
+    }
 
     return response.one;
   }
@@ -27,7 +34,7 @@ export class TradeManager {
   async create(
     payload: TradePayload,
     params?: Record<string, string>
-  ): Promise<PrimeTrustEntry<PrimeTrustDataType.trades>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.trades> | undefined> {
     const resp = await this.client.request<any>({
       data: {
         data: {
@@ -42,13 +49,17 @@ export class TradeManager {
 
     const response = new PrimeTrustResponse<PrimeTrustDataType.trades>(resp);
 
+    if (!response.one) {
+      throw new PrimeTrustError("Failed to retrieve the created resource");
+    }
+
     return response.one;
   }
 
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustEntry<PrimeTrustDataType.trades>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.trades> | undefined> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/trades/${id}`,
@@ -83,6 +94,9 @@ export class TradeManager {
     });
 
     const response = new PrimeTrustResponse<PrimeTrustDataType.trades>(resp);
+    if (!response.one) {
+      throw new PrimeTrustError("Failed to retrieve the created resource");
+    }
 
     return response.one;
   }

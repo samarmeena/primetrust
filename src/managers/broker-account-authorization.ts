@@ -11,7 +11,7 @@ export class BrokerAccountAuthorizationManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustEntry<PrimeTrustDataType.brokerAccountAuthorizations>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.brokerAccountAuthorizations> | undefined> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/broker-account-authorizations/${id}`,

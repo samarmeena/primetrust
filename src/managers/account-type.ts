@@ -11,7 +11,7 @@ export class AccountTypeManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustEntry<PrimeTrustDataType.accountTypes>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.accountTypes> | undefined> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/account-types/${id}`,

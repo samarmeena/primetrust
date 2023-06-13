@@ -11,7 +11,7 @@ export class PhoneNumberManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustEntry<PrimeTrustDataType.phoneNumbers>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.phoneNumbers> | undefined> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/phone-numbers/${id}`,

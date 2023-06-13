@@ -11,7 +11,7 @@ export class BalanceCheckManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustEntry<PrimeTrustDataType.balanceChecks>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.balanceChecks> | undefined> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/balance-checks/${id}`,

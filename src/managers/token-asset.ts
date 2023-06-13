@@ -11,7 +11,7 @@ export class TokenAssetManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustEntry<PrimeTrustDataType.tokenAssets>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.tokenAssets> | undefined> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/token-assets/${id}`,

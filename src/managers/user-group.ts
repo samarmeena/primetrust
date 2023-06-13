@@ -11,7 +11,7 @@ export class UserGroupManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustEntry<PrimeTrustDataType.userGroups>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.userGroups> | undefined> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/user-groups/${id}`,

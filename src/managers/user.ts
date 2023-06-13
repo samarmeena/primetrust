@@ -11,7 +11,7 @@ export class UserManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustEntry<PrimeTrustDataType.users>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.users> | undefined> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/users/${id}`,

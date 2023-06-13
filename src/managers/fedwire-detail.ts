@@ -11,7 +11,7 @@ export class FedwireDetailManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustEntry<PrimeTrustDataType.fedwireDetails>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.fedwireDetails> | undefined> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/fedwire-details/${id}`,

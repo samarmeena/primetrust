@@ -6,7 +6,11 @@ import type {
 } from "../payloads/index.js";
 import type { PrimeTrustDataType } from "../types/index.js";
 import type { PrimeTrustEntry } from "../utils/index.js";
-import { convertKeysToSnakeCase, PrimeTrustResponse } from "../utils/index.js";
+import {
+  convertKeysToSnakeCase,
+  PrimeTrustError,
+  PrimeTrustResponse,
+} from "../utils/index.js";
 
 export class AssetTransferMethodManager {
   constructor(private client: PrimeTrustAPIClient) {
@@ -33,6 +37,9 @@ export class AssetTransferMethodManager {
 
     const response =
       new PrimeTrustResponse<PrimeTrustDataType.assetTransferMethods>(resp);
+    if (!response.one) {
+      throw new PrimeTrustError("Failed to retrieve the created resource");
+    }
 
     return response.one;
   }
@@ -40,7 +47,9 @@ export class AssetTransferMethodManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustEntry<PrimeTrustDataType.assetTransferMethods>> {
+  ): Promise<
+    PrimeTrustEntry<PrimeTrustDataType.assetTransferMethods> | undefined
+  > {
     const resp = await this.client.request<any>({
       params: params,
       url: `/asset-transfer-methods/${id}`,
@@ -85,6 +94,10 @@ export class AssetTransferMethodManager {
 
     const response =
       new PrimeTrustResponse<PrimeTrustDataType.assetTransferMethods>(resp);
+
+    if (!response.one) {
+      throw new PrimeTrustError("Failed to retrieve the created resource");
+    }
 
     return response.one;
   }

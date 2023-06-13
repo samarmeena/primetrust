@@ -11,7 +11,7 @@ export class UiLogManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustEntry<PrimeTrustDataType.uiLogs>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.uiLogs> | undefined> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/ui-logs/${id}`,

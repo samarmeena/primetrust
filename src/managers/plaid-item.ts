@@ -11,7 +11,7 @@ export class PlaidItemManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustEntry<PrimeTrustDataType.plaidItems>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.plaidItems> | undefined> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/plaid-items/${id}`,

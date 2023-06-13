@@ -11,7 +11,7 @@ export class OrganizationDocumentManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustEntry<PrimeTrustDataType.organizationDocuments>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.organizationDocuments> | undefined> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/organization-documents/${id}`,

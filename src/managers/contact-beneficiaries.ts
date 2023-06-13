@@ -11,7 +11,7 @@ export class ContactBeneficiariesManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustEntry<PrimeTrustDataType.contactBeneficiaries>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.contactBeneficiaries> | undefined> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/contact-beneficiaries/${id}`,

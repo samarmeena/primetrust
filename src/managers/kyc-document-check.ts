@@ -11,7 +11,7 @@ export class KycDocumentCheckManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustEntry<PrimeTrustDataType.kycDocumentChecks>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.kycDocumentChecks> | undefined> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/kyc-document-checks/${id}`,

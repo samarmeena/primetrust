@@ -11,7 +11,7 @@ export class HoldManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustEntry<PrimeTrustDataType.holds>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.holds> | undefined> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/holds/${id}`,

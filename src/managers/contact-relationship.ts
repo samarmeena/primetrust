@@ -11,7 +11,7 @@ export class ContactRelationshipManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustEntry<PrimeTrustDataType.contactRelationships>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.contactRelationships> | undefined> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/contact-relationships/${id}`,

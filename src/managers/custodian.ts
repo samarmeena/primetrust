@@ -11,7 +11,7 @@ export class CustodianManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustEntry<PrimeTrustDataType.custodians>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.custodians> | undefined> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/custodians/${id}`,

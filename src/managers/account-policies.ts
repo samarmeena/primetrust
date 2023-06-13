@@ -11,7 +11,7 @@ export class AccountPoliciesManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustEntry<PrimeTrustDataType.accountPolicies>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.accountPolicies> | undefined> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/account-policies/${id}`,

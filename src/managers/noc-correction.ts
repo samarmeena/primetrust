@@ -11,7 +11,7 @@ export class NocCorrectionManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustEntry<PrimeTrustDataType.nocCorrections>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.nocCorrections> | undefined> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/noc-corrections/${id}`,

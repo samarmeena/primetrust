@@ -2,7 +2,11 @@ import type { PrimeTrustAPIClient } from "../client.js";
 import type { FundsTransferMethodPayload } from "../payloads/index.js";
 import { PrimeTrustDataType } from "../types/enum/index.js";
 import type { PrimeTrustEntry } from "../utils/index.js";
-import { convertKeysToSnakeCase, PrimeTrustResponse } from "../utils/index.js";
+import {
+  convertKeysToSnakeCase,
+  PrimeTrustError,
+  PrimeTrustResponse,
+} from "../utils/index.js";
 
 export class FundsTransferMethodManager {
   constructor(private client: PrimeTrustAPIClient) {
@@ -12,7 +16,9 @@ export class FundsTransferMethodManager {
   async deactivate(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustEntry<PrimeTrustDataType.fundsTransferMethods>> {
+  ): Promise<
+    PrimeTrustEntry<PrimeTrustDataType.fundsTransferMethods> | undefined
+  > {
     const resp = await this.client.request<any>({
       method: "post",
       params: params,
@@ -45,13 +51,19 @@ export class FundsTransferMethodManager {
     const response =
       new PrimeTrustResponse<PrimeTrustDataType.fundsTransferMethods>(resp);
 
+    if (!response.one) {
+      throw new PrimeTrustError("Failed to retrieve the created resource");
+    }
+
     return response.one;
   }
 
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustEntry<PrimeTrustDataType.fundsTransferMethods>> {
+  ): Promise<
+    PrimeTrustEntry<PrimeTrustDataType.fundsTransferMethods> | undefined
+  > {
     const resp = await this.client.request<any>({
       params: params,
       url: `/funds-transfer-methods/${id}`,

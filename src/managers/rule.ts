@@ -11,7 +11,7 @@ export class RuleManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustEntry<PrimeTrustDataType.rules>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.rules> | undefined> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/rules/${id}`,

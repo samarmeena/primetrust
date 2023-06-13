@@ -11,7 +11,7 @@ export class BankManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustEntry<PrimeTrustDataType.banks>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.banks> | undefined> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/banks/${id}`,

@@ -11,7 +11,7 @@ export class CreditCardFailureManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustEntry<PrimeTrustDataType.creditCardFailures>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.creditCardFailures> | undefined> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/credit-card-failures/${id}`,

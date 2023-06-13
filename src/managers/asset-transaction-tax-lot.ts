@@ -11,7 +11,7 @@ export class AssetTransactionTaxLotManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustEntry<PrimeTrustDataType.assetTransactionTaxLots>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.assetTransactionTaxLots> | undefined> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/asset-transaction-tax-lots/${id}`,

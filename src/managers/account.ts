@@ -2,7 +2,11 @@ import type { PrimeTrustAPIClient } from "../client.js";
 import type { AccountPayload } from "../payloads/index.js";
 import type { PrimeTrustDataType } from "../types/index.js";
 import type { PrimeTrustEntry } from "../utils/index.js";
-import { convertKeysToSnakeCase, PrimeTrustResponse } from "../utils/index.js";
+import {
+  convertKeysToSnakeCase,
+  PrimeTrustError,
+  PrimeTrustResponse,
+} from "../utils/index.js";
 
 export class AccountManager {
   constructor(private client: PrimeTrustAPIClient) {
@@ -43,6 +47,9 @@ export class AccountManager {
     });
 
     const response = new PrimeTrustResponse<PrimeTrustDataType.accounts>(resp);
+    if (!response.one) {
+      throw new PrimeTrustError("Failed to retrieve the created resource");
+    }
 
     return response.one;
   }
@@ -50,7 +57,7 @@ export class AccountManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustEntry<PrimeTrustDataType.accounts>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.accounts> | undefined> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/accounts/${id}`,

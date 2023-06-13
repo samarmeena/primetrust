@@ -11,7 +11,7 @@ export class PushTransferMethodManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustEntry<PrimeTrustDataType.pushTransferMethods>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.pushTransferMethods> | undefined> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/push-transfer-methods/${id}`,

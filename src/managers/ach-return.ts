@@ -11,7 +11,7 @@ export class AchReturnManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustEntry<PrimeTrustDataType.achReturns>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.achReturns> | undefined> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/ach-returns/${id}`,

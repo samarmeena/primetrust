@@ -11,7 +11,7 @@ export class AdvancedFilterManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustEntry<PrimeTrustDataType.advancedFilters>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.advancedFilters> | undefined> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/advanced-filters/${id}`,

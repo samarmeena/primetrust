@@ -11,7 +11,7 @@ export class ResourceTokenManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustEntry<PrimeTrustDataType.resourceTokens>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.resourceTokens> | undefined> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/resource-tokens/${id}`,

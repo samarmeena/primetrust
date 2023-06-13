@@ -11,7 +11,7 @@ export class CashTransactionManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustEntry<PrimeTrustDataType.cashTransactions>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.cashTransactions> | undefined> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/cash-transactions/${id}`,

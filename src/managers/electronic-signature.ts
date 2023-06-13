@@ -11,7 +11,7 @@ export class ElectronicSignatureManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustEntry<PrimeTrustDataType.electronicSignatures>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.electronicSignatures> | undefined> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/electronic-signatures/${id}`,

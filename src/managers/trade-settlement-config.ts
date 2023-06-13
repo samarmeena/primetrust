@@ -11,7 +11,7 @@ export class TradeSettlementConfigManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustEntry<PrimeTrustDataType.tradeSettlementConfigs>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.tradeSettlementConfigs> | undefined> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/trade-settlement-configs/${id}`,

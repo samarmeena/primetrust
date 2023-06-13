@@ -11,7 +11,7 @@ export class AccountSubTypeManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustEntry<PrimeTrustDataType.accountSubTypes>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.accountSubTypes> | undefined> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/account-sub-types/${id}`,

@@ -11,7 +11,7 @@ export class DisbursementAuthorizationManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustEntry<PrimeTrustDataType.disbursementAuthorizations>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.disbursementAuthorizations> | undefined> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/disbursement-authorizations/${id}`,

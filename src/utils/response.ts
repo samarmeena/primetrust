@@ -1,4 +1,5 @@
 import type { IncludeDataType, RawMap } from "../types/index.js";
+import { PrimeTrustError } from "./error.js";
 import { camelCase, convertKeysToCamelCase } from "./transformer.js";
 
 export class PrimeTrustRelation<T extends keyof RawMap> {
@@ -27,16 +28,18 @@ export class PrimeTrustEntityRelation<T extends keyof RawMap> {
   get<X extends keyof RawMap>(type: IncludeDataType): PrimeTrustRelation<X> {
     const relation = this.raw.relationships[camelCase(type)]?.data;
     if (!relation) {
-      throw new Error(`Relation "${type}" is not in with relation of entity`);
+      throw new PrimeTrustError(
+        `Relation "${type}" is not present in the entity's relationships`
+      );
     }
 
     if (relation === null) {
-      throw new Error(`Relation "${type}" is null`);
+      throw new PrimeTrustError(`Relation "${type}" is null`);
     }
 
     if (Array.isArray(relation)) {
-      throw new Error(
-        `Relation "${type}" is an array, use getAll method instead`
+      throw new PrimeTrustError(
+        `Relation "${type}" is an array. Use the getAll method instead`
       );
     }
 
@@ -45,8 +48,8 @@ export class PrimeTrustEntityRelation<T extends keyof RawMap> {
     );
 
     if (!find) {
-      throw new Error(
-        `Relation "${type}" is not found, use include=${type} to involve it in request`
+      throw new PrimeTrustError(
+        `Relation "${type}" is not found. Include "${type}" to involve it in the request`
       );
     }
 
@@ -58,16 +61,18 @@ export class PrimeTrustEntityRelation<T extends keyof RawMap> {
   ): PrimeTrustRelation<X>[] {
     const relations = this.raw.relationships[camelCase(type)]?.data;
     if (!relations) {
-      throw new Error(`Relation "${type}" is not in with relation of entity`);
+      throw new PrimeTrustError(
+        `Relation "${type}" is not present in the entity's relationships`
+      );
     }
 
     if (relations === null) {
-      throw new Error(`Relation "${type}" is null`);
+      throw new PrimeTrustError(`Relation "${type}" is null`);
     }
 
     if (!Array.isArray(relations)) {
-      throw new Error(
-        `Relation "${type}" is not an array, use get method instead`
+      throw new PrimeTrustError(
+        `Relation "${type}" is not an array. Use the get method instead`
       );
     }
 
@@ -103,8 +108,8 @@ export class PrimeTrustResponse<T extends keyof RawMap> {
   rawData: any;
 
   get pageCount(): number {
-    if (!this.rawData.meta.pageCount) {
-      throw Error("This response does not have page count");
+    if (!this.rawData.meta || typeof this.rawData.meta.pageCount !== "number") {
+      throw new Error("This response does not have a valid page count");
     }
 
     return this.rawData.meta.pageCount;
@@ -118,10 +123,17 @@ export class PrimeTrustResponse<T extends keyof RawMap> {
     return this.rawData.included;
   }
 
-  get one(): PrimeTrustEntry<T> {
-    return Array.isArray(this.rawData.data)
-      ? new PrimeTrustEntry(this, this.rawData.data[0])
-      : new PrimeTrustEntry(this, this.rawData.data);
+  get one(): PrimeTrustEntry<T> | undefined {
+    if (Array.isArray(this.rawData.data)) {
+      const entry = this.rawData.data[0];
+      if (!entry) {
+        return;
+      }
+
+      return new PrimeTrustEntry(this, entry);
+    }
+
+    return new PrimeTrustEntry(this, this.rawData.data);
   }
 
   get all(): PrimeTrustEntry<T>[] {
@@ -132,5 +144,11 @@ export class PrimeTrustResponse<T extends keyof RawMap> {
 
   constructor(public raw: any) {
     this.rawData = convertKeysToCamelCase(raw);
+
+    if (!this.rawData.data) {
+      throw new PrimeTrustError(
+        "Invalid response data. Missing 'data' property"
+      );
+    }
   }
 }

@@ -11,7 +11,7 @@ export class WireInitiatorManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustEntry<PrimeTrustDataType.wireInitiators>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.wireInitiators> | undefined> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/wire-initiators/${id}`,

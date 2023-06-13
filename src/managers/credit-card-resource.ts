@@ -2,7 +2,11 @@ import type { PrimeTrustAPIClient } from "../client.js";
 import type { CreditCardResourcePayload } from "../payloads/index.js";
 import type { PrimeTrustDataType } from "../types/index.js";
 import type { PrimeTrustEntry } from "../utils/index.js";
-import { convertKeysToSnakeCase, PrimeTrustResponse } from "../utils/index.js";
+import {
+  convertKeysToSnakeCase,
+  PrimeTrustError,
+  PrimeTrustResponse,
+} from "../utils/index.js";
 
 export class CreditCardResourceManager {
   constructor(private client: PrimeTrustAPIClient) {
@@ -28,6 +32,10 @@ export class CreditCardResourceManager {
     const response =
       new PrimeTrustResponse<PrimeTrustDataType.creditCardResources>(resp);
 
+    if (!response.one) {
+      throw new PrimeTrustError("Failed to retrieve the created resource");
+    }
+
     return response.one;
   }
 
@@ -49,13 +57,19 @@ export class CreditCardResourceManager {
     const response =
       new PrimeTrustResponse<PrimeTrustDataType.creditCardResources>(resp);
 
+    if (!response.one) {
+      throw new PrimeTrustError("Failed to retrieve the created resource");
+    }
+
     return response.one;
   }
 
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustEntry<PrimeTrustDataType.creditCardResources>> {
+  ): Promise<
+    PrimeTrustEntry<PrimeTrustDataType.creditCardResources> | undefined
+  > {
     const resp = await this.client.request<any>({
       params: params,
       url: `/credit-card-resources/${id}`,
@@ -84,7 +98,9 @@ export class CreditCardResourceManager {
   async refreshToken(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustEntry<PrimeTrustDataType.creditCardResources>> {
+  ): Promise<
+    PrimeTrustEntry<PrimeTrustDataType.creditCardResources> | undefined
+  > {
     const resp = await this.client.request<any>({
       method: "post",
       params: params,

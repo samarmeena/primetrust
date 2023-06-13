@@ -11,7 +11,7 @@ export class AddressManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustEntry<PrimeTrustDataType.addresses>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.addresses> | undefined> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/addresses/${id}`,

@@ -2,7 +2,11 @@ import type { PrimeTrustAPIClient } from "../client.js";
 import type { AssetDisbursementPayload } from "../payloads/index.js";
 import type { PrimeTrustDataType } from "../types/index.js";
 import type { PrimeTrustEntry } from "../utils/index.js";
-import { convertKeysToSnakeCase, PrimeTrustResponse } from "../utils/index.js";
+import {
+  convertKeysToSnakeCase,
+  PrimeTrustError,
+  PrimeTrustResponse,
+} from "../utils/index.js";
 
 export class AssetDisbursementManager {
   constructor(private client: PrimeTrustAPIClient) {
@@ -27,6 +31,9 @@ export class AssetDisbursementManager {
 
     const response =
       new PrimeTrustResponse<PrimeTrustDataType.assetDisbursements>(resp);
+    if (!response.one) {
+      throw new PrimeTrustError("Failed to retrieve the created resource");
+    }
 
     return response.one;
   }
@@ -34,7 +41,9 @@ export class AssetDisbursementManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustEntry<PrimeTrustDataType.assetDisbursements>> {
+  ): Promise<
+    PrimeTrustEntry<PrimeTrustDataType.assetDisbursements> | undefined
+  > {
     const resp = await this.client.request<any>({
       params: params,
       url: `/asset-disbursements/${id}`,

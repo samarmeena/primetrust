@@ -11,7 +11,7 @@ export class CipCheckManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustEntry<PrimeTrustDataType.cipChecks>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.cipChecks> | undefined> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/cip-checks/${id}`,

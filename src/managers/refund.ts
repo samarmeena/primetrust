@@ -11,7 +11,7 @@ export class RefundManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustEntry<PrimeTrustDataType.refunds>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.refunds> | undefined> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/refunds/${id}`,

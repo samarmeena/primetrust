@@ -12,7 +12,8 @@ export class AccountTransferAuthorizationManager {
     id: string,
     params?: Record<string, string>
   ): Promise<
-    PrimeTrustEntry<PrimeTrustDataType.accountTransferAuthorizations>
+    | PrimeTrustEntry<PrimeTrustDataType.accountTransferAuthorizations>
+    | undefined
   > {
     const resp = await this.client.request<any>({
       params: params,

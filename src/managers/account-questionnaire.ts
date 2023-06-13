@@ -11,7 +11,7 @@ export class AccountQuestionnaireManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustEntry<PrimeTrustDataType.accountQuestionnaires>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.accountQuestionnaires> | undefined> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/account-questionnaires/${id}`,

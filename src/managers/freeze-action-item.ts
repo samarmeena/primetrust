@@ -11,7 +11,7 @@ export class FreezeActionItemManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustEntry<PrimeTrustDataType.freezeActionItems>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.freezeActionItems> | undefined> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/freeze-action-items/${id}`,

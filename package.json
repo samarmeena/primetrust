@@ -1,6 +1,6 @@
 {
   "name": "primetrust",
-  "version": "1.3.0",
+  "version": "1.3.3",
   "description": "An API wrapper library for Prime Trust Financial Platform written in Node.js",
   "keywords": [
     "primetrust",
