@@ -43,6 +43,7 @@ import {
   ElectronicSignatureManager,
   FedwireDetailManager,
   FreezeActionItemManager,
+  FundsTransferManager,
   FundsTransferMethodManager,
   IraDistributionManager,
   IraTransferInFormManager,
@@ -125,6 +126,7 @@ export class PrimeTrustAPIClient {
   electronicSignature: ElectronicSignatureManager;
   fedwireDetail: FedwireDetailManager;
   freezeActionItem: FreezeActionItemManager;
+  fundsTransfer: FundsTransferManager;
   iraDistribution: IraDistributionManager;
   iraTransferInForm: IraTransferInFormManager;
   kycActionItem: KycActionItemManager;
@@ -215,6 +217,7 @@ export class PrimeTrustAPIClient {
     this.tradeSettlement = new TradeSettlementManager(this);
     this.uiLog = new UiLogManager(this);
     this.wireInitiator = new WireInitiatorManager(this);
+    this.fundsTransfer = new FundsTransferManager(this);
 
     this.updateToken();
     this.autoUpdateToken();

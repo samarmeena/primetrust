@@ -39,6 +39,7 @@ export * from "./disbursements.js";
 export * from "./electronic-signature.js";
 export * from "./fedwire-detail.js";
 export * from "./freeze-action-item.js";
+export * from "./funds-transfer.js";
 export * from "./funds-transfer-method.js";
 export * from "./ira-distribution.js";
 export * from "./ira-transfer-in-form.js";
