@@ -1,5 +1,6 @@
 import type { PrimeTrustAPIClient } from "../client.js";
-import type { RawAdvancedFilter } from "../interfaces/index.js";
+import type { PrimeTrustDataType } from "../types/index.js";
+import type { PrimeTrustEntry } from "../utils/index.js";
 import { PrimeTrustResponse } from "../utils/index.js";
 
 export class AdvancedFilterManager {
@@ -10,23 +11,31 @@ export class AdvancedFilterManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawAdvancedFilter>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.advancedFilters>> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/advanced-filters/${id}`,
     });
 
-    return PrimeTrustResponse(resp.data, resp.included);
+    const response = new PrimeTrustResponse<PrimeTrustDataType.advancedFilters>(
+      resp
+    );
+
+    return response.one;
   }
 
   async getAll(
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawAdvancedFilter>[]> {
+  ): Promise<PrimeTrustResponse<PrimeTrustDataType.advancedFilters>> {
     const resp = await this.client.request<any>({
       params: params,
       url: "/advanced-filters",
     });
 
-    return resp.data.map((d: any) => PrimeTrustResponse(d));
+    const response = new PrimeTrustResponse<PrimeTrustDataType.advancedFilters>(
+      resp
+    );
+
+    return response;
   }
 }

@@ -1,5 +1,6 @@
 export enum PrimeTrustDataType {
   accountAggregatePolicies = "account-aggregate-policies",
+  accountAssetTotals = "account-asset-totals",
   accountCashTotals = "account-cash-totals",
   accountCashTransfers = "account-cash-transfers",
   accountPolicies = "account-policies",
@@ -11,6 +12,7 @@ export enum PrimeTrustDataType {
   accounts = "accounts",
   achOriginators = "ach-originators",
   achReturns = "ach-returns",
+  addresses = "addresses",
   advancedFilters = "advanced-filters",
   amlChecks = "aml-checks",
   assetContributions = "asset-contributions",
@@ -60,6 +62,7 @@ export enum PrimeTrustDataType {
   phoneNumbers = "phone-numbers",
   plaidItems = "plaid-items",
   pushTransferMethods = "push-transfer-methods",
+  quotes = "quotes",
   refunds = "refunds",
   resourceTokens = "resource-tokens",
   rules = "rules",
@@ -73,5 +76,6 @@ export enum PrimeTrustDataType {
   userInvitations = "user-invitations",
   users = "users",
   webhookConfigs = "webhook-configs",
+  webhooks = "webhooks",
   wireInitiators = "wire-initiators",
 }

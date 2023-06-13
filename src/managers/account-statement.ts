@@ -1,5 +1,6 @@
 import type { PrimeTrustAPIClient } from "../client.js";
-import type { RawAccountStatement } from "../interfaces/index.js";
+import type { PrimeTrustDataType } from "../types/index.js";
+import type { PrimeTrustEntry } from "../utils/index.js";
 import { PrimeTrustResponse } from "../utils/index.js";
 
 export class AccountStatementManager {
@@ -10,23 +11,29 @@ export class AccountStatementManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawAccountStatement>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.accountStatements>> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/account-statements/${id}`,
     });
 
-    return PrimeTrustResponse(resp.data, resp.included);
+    const response =
+      new PrimeTrustResponse<PrimeTrustDataType.accountStatements>(resp);
+
+    return response.one;
   }
 
   async getAll(
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawAccountStatement>[]> {
+  ): Promise<PrimeTrustResponse<PrimeTrustDataType.accountStatements>> {
     const resp = await this.client.request<any>({
       params: params,
       url: "/account-statements",
     });
 
-    return resp.data.map((d: any) => PrimeTrustResponse(d));
+    const response =
+      new PrimeTrustResponse<PrimeTrustDataType.accountStatements>(resp);
+
+    return response;
   }
 }

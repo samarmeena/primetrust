@@ -1,5 +1,6 @@
 import type { PrimeTrustAPIClient } from "../client.js";
-import type { RawAuthorizationRuleGroup } from "../interfaces/index.js";
+import type { PrimeTrustDataType } from "../types/index.js";
+import type { PrimeTrustEntry } from "../utils/index.js";
 import { PrimeTrustResponse } from "../utils/index.js";
 
 export class AuthorizationRuleGroupManager {
@@ -10,23 +11,29 @@ export class AuthorizationRuleGroupManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawAuthorizationRuleGroup>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.authorizationRuleGroups>> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/authorization-rule-groups/${id}`,
     });
 
-    return PrimeTrustResponse(resp.data, resp.included);
+    const response =
+      new PrimeTrustResponse<PrimeTrustDataType.authorizationRuleGroups>(resp);
+
+    return response.one;
   }
 
   async getAll(
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawAuthorizationRuleGroup>[]> {
+  ): Promise<PrimeTrustResponse<PrimeTrustDataType.authorizationRuleGroups>> {
     const resp = await this.client.request<any>({
       params: params,
       url: "/authorization-rule-groups",
     });
 
-    return resp.data.map((d: any) => PrimeTrustResponse(d));
+    const response =
+      new PrimeTrustResponse<PrimeTrustDataType.authorizationRuleGroups>(resp);
+
+    return response;
   }
 }

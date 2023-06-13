@@ -1,6 +1,7 @@
 import type { PrimeTrustAPIClient } from "../client.js";
-import type { RawTrade } from "../interfaces/index.js";
 import type { TradePayload } from "../payloads/index.js";
+import type { PrimeTrustDataType } from "../types/index.js";
+import type { PrimeTrustEntry } from "../utils/index.js";
 import { convertKeysToSnakeCase, PrimeTrustResponse } from "../utils/index.js";
 
 export class TradeManager {
@@ -11,20 +12,22 @@ export class TradeManager {
   async cancel(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawTrade>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.trades>> {
     const resp = await this.client.request<any>({
       method: "post",
       params: params,
       url: `/trades/${id}/cancel`,
     });
 
-    return PrimeTrustResponse(resp.data, resp.included);
+    const response = new PrimeTrustResponse<PrimeTrustDataType.trades>(resp);
+
+    return response.one;
   }
 
   async create(
     payload: TradePayload,
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawTrade>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.trades>> {
     const resp = await this.client.request<any>({
       data: {
         data: {
@@ -37,42 +40,50 @@ export class TradeManager {
       url: "/trades",
     });
 
-    return PrimeTrustResponse(resp.data, resp.included);
+    const response = new PrimeTrustResponse<PrimeTrustDataType.trades>(resp);
+
+    return response.one;
   }
 
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawTrade>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.trades>> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/trades/${id}`,
     });
 
-    return PrimeTrustResponse(resp.data, resp.included);
+    const response = new PrimeTrustResponse<PrimeTrustDataType.trades>(resp);
+
+    return response.one;
   }
 
   async getAll(
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawTrade>[]> {
+  ): Promise<PrimeTrustResponse<PrimeTrustDataType.trades>> {
     const resp = await this.client.request<any>({
       params: params,
       url: "/trades",
     });
 
-    return resp.data.map((d: any) => PrimeTrustResponse(d));
+    const response = new PrimeTrustResponse<PrimeTrustDataType.trades>(resp);
+
+    return response;
   }
 
   async settle(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawTrade>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.trades>> {
     const resp = await this.client.request<any>({
       method: "post",
       params: params,
       url: `/trades/${id}/settle`,
     });
 
-    return PrimeTrustResponse(resp.data, resp.included);
+    const response = new PrimeTrustResponse<PrimeTrustDataType.trades>(resp);
+
+    return response.one;
   }
 }

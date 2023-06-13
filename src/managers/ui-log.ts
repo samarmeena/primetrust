@@ -1,5 +1,6 @@
 import type { PrimeTrustAPIClient } from "../client.js";
-import type { RawUiLog } from "../interfaces/index.js";
+import type { PrimeTrustDataType } from "../types/index.js";
+import type { PrimeTrustEntry } from "../utils/index.js";
 import { PrimeTrustResponse } from "../utils/index.js";
 
 export class UiLogManager {
@@ -10,23 +11,27 @@ export class UiLogManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawUiLog>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.uiLogs>> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/ui-logs/${id}`,
     });
 
-    return PrimeTrustResponse(resp.data, resp.included);
+    const response = new PrimeTrustResponse<PrimeTrustDataType.uiLogs>(resp);
+
+    return response.one;
   }
 
   async getAll(
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawUiLog>[]> {
+  ): Promise<PrimeTrustResponse<PrimeTrustDataType.uiLogs>> {
     const resp = await this.client.request<any>({
       params: params,
       url: "/ui-logs",
     });
 
-    return resp.data.map((d: any) => PrimeTrustResponse(d));
+    const response = new PrimeTrustResponse<PrimeTrustDataType.uiLogs>(resp);
+
+    return response;
   }
 }

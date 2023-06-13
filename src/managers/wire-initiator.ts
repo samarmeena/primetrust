@@ -1,5 +1,6 @@
 import type { PrimeTrustAPIClient } from "../client.js";
-import type { RawWireInitiator } from "../interfaces/index.js";
+import type { PrimeTrustDataType } from "../types/index.js";
+import type { PrimeTrustEntry } from "../utils/index.js";
 import { PrimeTrustResponse } from "../utils/index.js";
 
 export class WireInitiatorManager {
@@ -10,23 +11,31 @@ export class WireInitiatorManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawWireInitiator>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.wireInitiators>> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/wire-initiators/${id}`,
     });
 
-    return PrimeTrustResponse(resp.data, resp.included);
+    const response = new PrimeTrustResponse<PrimeTrustDataType.wireInitiators>(
+      resp
+    );
+
+    return response.one;
   }
 
   async getAll(
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawWireInitiator>[]> {
+  ): Promise<PrimeTrustResponse<PrimeTrustDataType.wireInitiators>> {
     const resp = await this.client.request<any>({
       params: params,
       url: "/wire-initiators",
     });
 
-    return resp.data.map((d: any) => PrimeTrustResponse(d));
+    const response = new PrimeTrustResponse<PrimeTrustDataType.wireInitiators>(
+      resp
+    );
+
+    return response;
   }
 }

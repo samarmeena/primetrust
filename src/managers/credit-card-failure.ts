@@ -1,5 +1,6 @@
 import type { PrimeTrustAPIClient } from "../client.js";
-import type { RawCreditCardFailure } from "../interfaces/index.js";
+import type { PrimeTrustDataType } from "../types/index.js";
+import type { PrimeTrustEntry } from "../utils/index.js";
 import { PrimeTrustResponse } from "../utils/index.js";
 
 export class CreditCardFailureManager {
@@ -10,23 +11,29 @@ export class CreditCardFailureManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawCreditCardFailure>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.creditCardFailures>> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/credit-card-failures/${id}`,
     });
 
-    return PrimeTrustResponse(resp.data, resp.included);
+    const response =
+      new PrimeTrustResponse<PrimeTrustDataType.creditCardFailures>(resp);
+
+    return response.one;
   }
 
   async getAll(
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawCreditCardFailure>[]> {
+  ): Promise<PrimeTrustResponse<PrimeTrustDataType.creditCardFailures>> {
     const resp = await this.client.request<any>({
       params: params,
       url: "/credit-card-failures",
     });
 
-    return resp.data.map((d: any) => PrimeTrustResponse(d));
+    const response =
+      new PrimeTrustResponse<PrimeTrustDataType.creditCardFailures>(resp);
+
+    return response;
   }
 }

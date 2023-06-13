@@ -1,5 +1,6 @@
 import type { PrimeTrustAPIClient } from "../client.js";
-import type { RawUploadedDocument } from "../interfaces/index.js";
+import type { PrimeTrustDataType } from "../types/index.js";
+import type { PrimeTrustEntry } from "../utils/index.js";
 import { PrimeTrustResponse } from "../utils/index.js";
 
 export class UploadedDocumentManager {
@@ -10,23 +11,29 @@ export class UploadedDocumentManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawUploadedDocument>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.uploadedDocuments>> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/uploaded-documents/${id}`,
     });
 
-    return PrimeTrustResponse(resp.data, resp.included);
+    const response =
+      new PrimeTrustResponse<PrimeTrustDataType.uploadedDocuments>(resp);
+
+    return response.one;
   }
 
   async getAll(
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawUploadedDocument>[]> {
+  ): Promise<PrimeTrustResponse<PrimeTrustDataType.uploadedDocuments>> {
     const resp = await this.client.request<any>({
       params: params,
       url: "/uploaded-documents",
     });
 
-    return resp.data.map((d: any) => PrimeTrustResponse(d));
+    const response =
+      new PrimeTrustResponse<PrimeTrustDataType.uploadedDocuments>(resp);
+
+    return response;
   }
 }

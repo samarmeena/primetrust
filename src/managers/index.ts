@@ -13,6 +13,7 @@ export * from "./ach-return.js";
 export * from "./advanced-filter.js";
 export * from "./agreement-preview.js";
 export * from "./aml-check.js";
+export * from "./asset-contribution.js";
 export * from "./asset-disbursement.js";
 export * from "./asset-transaction.js";
 export * from "./asset-transaction-tax-lot.js";

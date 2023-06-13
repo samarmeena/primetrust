@@ -1,5 +1,6 @@
 import type { PrimeTrustAPIClient } from "../client.js";
-import type { RawCustodian } from "../interfaces/index.js";
+import type { PrimeTrustDataType } from "../types/index.js";
+import type { PrimeTrustEntry } from "../utils/index.js";
 import { PrimeTrustResponse } from "../utils/index.js";
 
 export class CustodianManager {
@@ -10,23 +11,31 @@ export class CustodianManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawCustodian>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.custodians>> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/custodians/${id}`,
     });
 
-    return PrimeTrustResponse(resp.data, resp.included);
+    const response = new PrimeTrustResponse<PrimeTrustDataType.custodians>(
+      resp
+    );
+
+    return response.one;
   }
 
   async getAll(
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawCustodian>[]> {
+  ): Promise<PrimeTrustResponse<PrimeTrustDataType.custodians>> {
     const resp = await this.client.request<any>({
       params: params,
       url: "/custodians",
     });
 
-    return resp.data.map((d: any) => PrimeTrustResponse(d));
+    const response = new PrimeTrustResponse<PrimeTrustDataType.custodians>(
+      resp
+    );
+
+    return response;
   }
 }

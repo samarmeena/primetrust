@@ -1,5 +1,6 @@
 import type { PrimeTrustAPIClient } from "../client.js";
-import type { RawInternalAssetTransfer } from "../interfaces/index.js";
+import type { PrimeTrustDataType } from "../types/index.js";
+import type { PrimeTrustEntry } from "../utils/index.js";
 import { PrimeTrustResponse } from "../utils/index.js";
 
 export class InternalAssetTransferManager {
@@ -10,23 +11,29 @@ export class InternalAssetTransferManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawInternalAssetTransfer>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.internalAssetTransfers>> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/internal-asset-transfers/${id}`,
     });
 
-    return PrimeTrustResponse(resp.data, resp.included);
+    const response =
+      new PrimeTrustResponse<PrimeTrustDataType.internalAssetTransfers>(resp);
+
+    return response.one;
   }
 
   async getAll(
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawInternalAssetTransfer>[]> {
+  ): Promise<PrimeTrustResponse<PrimeTrustDataType.internalAssetTransfers>> {
     const resp = await this.client.request<any>({
       params: params,
       url: "/internal-asset-transfers",
     });
 
-    return resp.data.map((d: any) => PrimeTrustResponse(d));
+    const response =
+      new PrimeTrustResponse<PrimeTrustDataType.internalAssetTransfers>(resp);
+
+    return response;
   }
 }

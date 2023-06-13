@@ -1,5 +1,6 @@
 import type { PrimeTrustAPIClient } from "../client.js";
-import type { RawAccountAssetTotal } from "../interfaces/index.js";
+import type { PrimeTrustDataType } from "../types/index.js";
+import type { PrimeTrustEntry } from "../utils/index.js";
 import { PrimeTrustResponse } from "../utils/index.js";
 
 export class AccountAssetTotalManager {
@@ -10,23 +11,29 @@ export class AccountAssetTotalManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawAccountAssetTotal>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.accountAssetTotals>> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/account-asset-totals/${id}`,
     });
 
-    return PrimeTrustResponse(resp.data, resp.included);
+    const response =
+      new PrimeTrustResponse<PrimeTrustDataType.accountAssetTotals>(resp);
+
+    return response.one;
   }
 
   async getAll(
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawAccountAssetTotal>[]> {
+  ): Promise<PrimeTrustResponse<PrimeTrustDataType.accountAssetTotals>> {
     const resp = await this.client.request<any>({
       params: params,
       url: "/account-asset-totals",
     });
 
-    return resp.data.map((d: any) => PrimeTrustResponse(d));
+    const response =
+      new PrimeTrustResponse<PrimeTrustDataType.accountAssetTotals>(resp);
+
+    return response;
   }
 }

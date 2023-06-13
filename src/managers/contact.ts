@@ -1,6 +1,7 @@
 import type { PrimeTrustAPIClient } from "../client.js";
-import type { RawContact } from "../interfaces/index.js";
 import type { OwnerPayload } from "../payloads/account.js";
+import type { PrimeTrustDataType } from "../types/index.js";
+import type { PrimeTrustEntry } from "../utils/index.js";
 import { convertKeysToSnakeCase, PrimeTrustResponse } from "../utils/index.js";
 
 export class ContactManager {
@@ -11,7 +12,7 @@ export class ContactManager {
   async create(
     payload: OwnerPayload,
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawContact>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.contacts>> {
     const resp = await this.client.request<any>({
       data: {
         data: {
@@ -24,36 +25,42 @@ export class ContactManager {
       url: "/contacts",
     });
 
-    return PrimeTrustResponse(resp.data, resp.included);
+    const response = new PrimeTrustResponse<PrimeTrustDataType.contacts>(resp);
+
+    return response.one;
   }
 
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawContact>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.contacts>> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/contacts/${id}`,
     });
 
-    return PrimeTrustResponse(resp.data, resp.included);
+    const response = new PrimeTrustResponse<PrimeTrustDataType.contacts>(resp);
+
+    return response.one;
   }
 
   async getAll(
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawContact>[]> {
+  ): Promise<PrimeTrustResponse<PrimeTrustDataType.contacts>> {
     const resp = await this.client.request<any>({
       params: params,
       url: "/contacts",
     });
 
-    return resp.data.map((d: any) => PrimeTrustResponse(d));
+    const response = new PrimeTrustResponse<PrimeTrustDataType.contacts>(resp);
+
+    return response;
   }
 
   async patch(data: {
     contactId: string;
     payload: Partial<OwnerPayload>;
-  }): Promise<PrimeTrustResponse<RawContact>> {
+  }): Promise<PrimeTrustEntry<PrimeTrustDataType.contacts>> {
     const resp = await this.client.request<any>({
       data: {
         data: {
@@ -65,6 +72,8 @@ export class ContactManager {
       url: `/contacts/${data.contactId}`,
     });
 
-    return PrimeTrustResponse(resp.data, resp.included);
+    const response = new PrimeTrustResponse<PrimeTrustDataType.contacts>(resp);
+
+    return response.one;
   }
 }

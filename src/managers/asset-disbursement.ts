@@ -1,6 +1,7 @@
 import type { PrimeTrustAPIClient } from "../client.js";
-import type { RawAssetDisbursement } from "../interfaces/index.js";
 import type { AssetDisbursementPayload } from "../payloads/index.js";
+import type { PrimeTrustDataType } from "../types/index.js";
+import type { PrimeTrustEntry } from "../utils/index.js";
 import { convertKeysToSnakeCase, PrimeTrustResponse } from "../utils/index.js";
 
 export class AssetDisbursementManager {
@@ -11,7 +12,7 @@ export class AssetDisbursementManager {
   async create(
     payload: AssetDisbursementPayload,
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawAssetDisbursement>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.assetDisbursements>> {
     const resp = await this.client.request<any>({
       data: {
         data: {
@@ -24,29 +25,38 @@ export class AssetDisbursementManager {
       url: "/asset-disbursements",
     });
 
-    return PrimeTrustResponse(resp.data, resp.included);
+    const response =
+      new PrimeTrustResponse<PrimeTrustDataType.assetDisbursements>(resp);
+
+    return response.one;
   }
 
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawAssetDisbursement>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.assetDisbursements>> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/asset-disbursements/${id}`,
     });
 
-    return PrimeTrustResponse(resp.data, resp.included);
+    const response =
+      new PrimeTrustResponse<PrimeTrustDataType.assetDisbursements>(resp);
+
+    return response.one;
   }
 
   async getAll(
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawAssetDisbursement>[]> {
+  ): Promise<PrimeTrustResponse<PrimeTrustDataType.assetDisbursements>> {
     const resp = await this.client.request<any>({
       params: params,
       url: "/asset-disbursements",
     });
 
-    return resp.data.map((d: any) => PrimeTrustResponse(d));
+    const response =
+      new PrimeTrustResponse<PrimeTrustDataType.assetDisbursements>(resp);
+
+    return response;
   }
 }

@@ -1,5 +1,6 @@
 import type { PrimeTrustAPIClient } from "../client.js";
-import type { RawKycDocumentCheck } from "../interfaces/index.js";
+import type { PrimeTrustDataType } from "../types/index.js";
+import type { PrimeTrustEntry } from "../utils/index.js";
 import { PrimeTrustResponse } from "../utils/index.js";
 
 export class KycDocumentCheckManager {
@@ -10,23 +11,29 @@ export class KycDocumentCheckManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawKycDocumentCheck>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.kycDocumentChecks>> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/kyc-document-checks/${id}`,
     });
 
-    return PrimeTrustResponse(resp.data, resp.included);
+    const response =
+      new PrimeTrustResponse<PrimeTrustDataType.kycDocumentChecks>(resp);
+
+    return response.one;
   }
 
   async getAll(
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawKycDocumentCheck>[]> {
+  ): Promise<PrimeTrustResponse<PrimeTrustDataType.kycDocumentChecks>> {
     const resp = await this.client.request<any>({
       params: params,
       url: "/kyc-document-checks",
     });
 
-    return resp.data.map((d: any) => PrimeTrustResponse(d));
+    const response =
+      new PrimeTrustResponse<PrimeTrustDataType.kycDocumentChecks>(resp);
+
+    return response;
   }
 }

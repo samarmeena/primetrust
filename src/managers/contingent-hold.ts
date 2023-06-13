@@ -1,5 +1,6 @@
 import type { PrimeTrustAPIClient } from "../client.js";
-import type { RawContingentHold } from "../interfaces/index.js";
+import type { PrimeTrustDataType } from "../types/index.js";
+import type { PrimeTrustEntry } from "../utils/index.js";
 import { PrimeTrustResponse } from "../utils/index.js";
 
 export class ContingentHoldManager {
@@ -10,23 +11,31 @@ export class ContingentHoldManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawContingentHold>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.contingentHolds>> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/contingent-holds/${id}`,
     });
 
-    return PrimeTrustResponse(resp.data, resp.included);
+    const response = new PrimeTrustResponse<PrimeTrustDataType.contingentHolds>(
+      resp
+    );
+
+    return response.one;
   }
 
   async getAll(
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawContingentHold>[]> {
+  ): Promise<PrimeTrustResponse<PrimeTrustDataType.contingentHolds>> {
     const resp = await this.client.request<any>({
       params: params,
       url: "/contingent-holds",
     });
 
-    return resp.data.map((d: any) => PrimeTrustResponse(d));
+    const response = new PrimeTrustResponse<PrimeTrustDataType.contingentHolds>(
+      resp
+    );
+
+    return response;
   }
 }

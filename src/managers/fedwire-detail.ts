@@ -1,5 +1,6 @@
 import type { PrimeTrustAPIClient } from "../client.js";
-import type { RawFedwireDetail } from "../interfaces/index.js";
+import type { PrimeTrustDataType } from "../types/index.js";
+import type { PrimeTrustEntry } from "../utils/index.js";
 import { PrimeTrustResponse } from "../utils/index.js";
 
 export class FedwireDetailManager {
@@ -10,23 +11,31 @@ export class FedwireDetailManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawFedwireDetail>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.fedwireDetails>> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/fedwire-details/${id}`,
     });
 
-    return PrimeTrustResponse(resp.data, resp.included);
+    const response = new PrimeTrustResponse<PrimeTrustDataType.fedwireDetails>(
+      resp
+    );
+
+    return response.one;
   }
 
   async getAll(
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawFedwireDetail>[]> {
+  ): Promise<PrimeTrustResponse<PrimeTrustDataType.fedwireDetails>> {
     const resp = await this.client.request<any>({
       params: params,
       url: "/fedwire-details",
     });
 
-    return resp.data.map((d: any) => PrimeTrustResponse(d));
+    const response = new PrimeTrustResponse<PrimeTrustDataType.fedwireDetails>(
+      resp
+    );
+
+    return response;
   }
 }

@@ -1,6 +1,7 @@
 import type { PrimeTrustAPIClient } from "../client.js";
-import type { RawQuote } from "../interfaces/index.js";
 import type { QuotePayload } from "../payloads/index.js";
+import type { PrimeTrustDataType } from "../types/index.js";
+import type { PrimeTrustEntry } from "../utils/index.js";
 import { convertKeysToSnakeCase, PrimeTrustResponse } from "../utils/index.js";
 
 export class QuoteManager {
@@ -11,7 +12,7 @@ export class QuoteManager {
   async create(
     payload: QuotePayload,
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawQuote>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.quotes>> {
     const resp = await this.client.request<any>({
       data: {
         data: {
@@ -24,42 +25,50 @@ export class QuoteManager {
       url: "/quotes",
     });
 
-    return PrimeTrustResponse(resp.data, resp.included);
+    const response = new PrimeTrustResponse<PrimeTrustDataType.quotes>(resp);
+
+    return response.one;
   }
 
   async execute(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawQuote>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.quotes>> {
     const resp = await this.client.request<any>({
       method: "post",
       params: params,
       url: `/quotes/${id}/execute`,
     });
 
-    return PrimeTrustResponse(resp.data, resp.included);
+    const response = new PrimeTrustResponse<PrimeTrustDataType.quotes>(resp);
+
+    return response.one;
   }
 
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawQuote>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.quotes>> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/quotes/${id}`,
     });
 
-    return PrimeTrustResponse(resp.data, resp.included);
+    const response = new PrimeTrustResponse<PrimeTrustDataType.quotes>(resp);
+
+    return response.one;
   }
 
   async getAll(
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawQuote>[]> {
+  ): Promise<PrimeTrustResponse<PrimeTrustDataType.quotes>> {
     const resp = await this.client.request<any>({
       params: params,
       url: "/quotes",
     });
 
-    return resp.data.map((d: any) => PrimeTrustResponse(d));
+    const response = new PrimeTrustResponse<PrimeTrustDataType.quotes>(resp);
+
+    return response;
   }
 }

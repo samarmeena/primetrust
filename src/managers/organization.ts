@@ -1,5 +1,6 @@
 import type { PrimeTrustAPIClient } from "../client.js";
-import type { RawOrganization } from "../interfaces/index.js";
+import type { PrimeTrustDataType } from "../types/index.js";
+import type { PrimeTrustEntry } from "../utils/index.js";
 import { PrimeTrustResponse } from "../utils/index.js";
 
 export class OrganizationManager {
@@ -10,23 +11,31 @@ export class OrganizationManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawOrganization>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.organizations>> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/organizations/${id}`,
     });
 
-    return PrimeTrustResponse(resp.data, resp.included);
+    const response = new PrimeTrustResponse<PrimeTrustDataType.organizations>(
+      resp
+    );
+
+    return response.one;
   }
 
   async getAll(
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawOrganization>[]> {
+  ): Promise<PrimeTrustResponse<PrimeTrustDataType.organizations>> {
     const resp = await this.client.request<any>({
       params: params,
       url: "/organizations",
     });
 
-    return resp.data.map((d: any) => PrimeTrustResponse(d));
+    const response = new PrimeTrustResponse<PrimeTrustDataType.organizations>(
+      resp
+    );
+
+    return response;
   }
 }

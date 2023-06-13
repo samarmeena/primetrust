@@ -1,5 +1,6 @@
 import type { PrimeTrustAPIClient } from "../client.js";
-import type { RawRule } from "../interfaces/index.js";
+import type { PrimeTrustDataType } from "../types/index.js";
+import type { PrimeTrustEntry } from "../utils/index.js";
 import { PrimeTrustResponse } from "../utils/index.js";
 
 export class RuleManager {
@@ -10,23 +11,27 @@ export class RuleManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawRule>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.rules>> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/rules/${id}`,
     });
 
-    return PrimeTrustResponse(resp.data, resp.included);
+    const response = new PrimeTrustResponse<PrimeTrustDataType.rules>(resp);
+
+    return response.one;
   }
 
   async getAll(
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawRule>[]> {
+  ): Promise<PrimeTrustResponse<PrimeTrustDataType.rules>> {
     const resp = await this.client.request<any>({
       params: params,
       url: "/rules",
     });
 
-    return resp.data.map((d: any) => PrimeTrustResponse(d));
+    const response = new PrimeTrustResponse<PrimeTrustDataType.rules>(resp);
+
+    return response;
   }
 }

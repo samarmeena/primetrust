@@ -1,7 +1,7 @@
 import type { PrimeTrustAPIClient } from "../client.js";
-import type { RawFundsTransferMethod } from "../interfaces/index.js";
 import type { FundsTransferMethodPayload } from "../payloads/index.js";
 import { PrimeTrustDataType } from "../types/enum/index.js";
+import type { PrimeTrustEntry } from "../utils/index.js";
 import { convertKeysToSnakeCase, PrimeTrustResponse } from "../utils/index.js";
 
 export class FundsTransferMethodManager {
@@ -12,21 +12,24 @@ export class FundsTransferMethodManager {
   async deactivate(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawFundsTransferMethod>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.fundsTransferMethods>> {
     const resp = await this.client.request<any>({
       method: "post",
       params: params,
       url: `/funds-transfer-methods/${id}/deactivate`,
     });
 
-    return PrimeTrustResponse(resp.data, resp.included);
+    const response =
+      new PrimeTrustResponse<PrimeTrustDataType.fundsTransferMethods>(resp);
+
+    return response.one;
   }
 
   async create(
     payload: FundsTransferMethodPayload,
 
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawFundsTransferMethod>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.fundsTransferMethods>> {
     const resp = await this.client.request<any>({
       data: {
         data: {
@@ -39,29 +42,38 @@ export class FundsTransferMethodManager {
       url: "/funds-transfer-methods",
     });
 
-    return PrimeTrustResponse(resp.data, resp.included);
+    const response =
+      new PrimeTrustResponse<PrimeTrustDataType.fundsTransferMethods>(resp);
+
+    return response.one;
   }
 
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawFundsTransferMethod>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.fundsTransferMethods>> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/funds-transfer-methods/${id}`,
     });
 
-    return PrimeTrustResponse(resp.data, resp.included);
+    const response =
+      new PrimeTrustResponse<PrimeTrustDataType.fundsTransferMethods>(resp);
+
+    return response.one;
   }
 
   async getAll(
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawFundsTransferMethod>[]> {
+  ): Promise<PrimeTrustResponse<PrimeTrustDataType.fundsTransferMethods>> {
     const resp = await this.client.request<any>({
       params: params,
       url: "/funds-transfer-methods",
     });
 
-    return resp.data.map((d: any) => PrimeTrustResponse(d));
+    const response =
+      new PrimeTrustResponse<PrimeTrustDataType.fundsTransferMethods>(resp);
+
+    return response;
   }
 }

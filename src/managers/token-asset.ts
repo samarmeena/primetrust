@@ -1,5 +1,6 @@
 import type { PrimeTrustAPIClient } from "../client.js";
-import type { RawTokenAsset } from "../interfaces/index.js";
+import type { PrimeTrustDataType } from "../types/index.js";
+import type { PrimeTrustEntry } from "../utils/index.js";
 import { PrimeTrustResponse } from "../utils/index.js";
 
 export class TokenAssetManager {
@@ -10,23 +11,31 @@ export class TokenAssetManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawTokenAsset>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.tokenAssets>> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/token-assets/${id}`,
     });
 
-    return PrimeTrustResponse(resp.data, resp.included);
+    const response = new PrimeTrustResponse<PrimeTrustDataType.tokenAssets>(
+      resp
+    );
+
+    return response.one;
   }
 
   async getAll(
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawTokenAsset>[]> {
+  ): Promise<PrimeTrustResponse<PrimeTrustDataType.tokenAssets>> {
     const resp = await this.client.request<any>({
       params: params,
       url: "/token-assets",
     });
 
-    return resp.data.map((d: any) => PrimeTrustResponse(d));
+    const response = new PrimeTrustResponse<PrimeTrustDataType.tokenAssets>(
+      resp
+    );
+
+    return response;
   }
 }

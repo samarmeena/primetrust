@@ -1,5 +1,6 @@
 import type { PrimeTrustAPIClient } from "../client.js";
-import type { RawRefund } from "../interfaces/index.js";
+import type { PrimeTrustDataType } from "../types/index.js";
+import type { PrimeTrustEntry } from "../utils/index.js";
 import { PrimeTrustResponse } from "../utils/index.js";
 
 export class RefundManager {
@@ -10,23 +11,27 @@ export class RefundManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawRefund>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.refunds>> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/refunds/${id}`,
     });
 
-    return PrimeTrustResponse(resp.data, resp.included);
+    const response = new PrimeTrustResponse<PrimeTrustDataType.refunds>(resp);
+
+    return response.one;
   }
 
   async getAll(
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawRefund>[]> {
+  ): Promise<PrimeTrustResponse<PrimeTrustDataType.refunds>> {
     const resp = await this.client.request<any>({
       params: params,
       url: "/refunds",
     });
 
-    return resp.data.map((d: any) => PrimeTrustResponse(d));
+    const response = new PrimeTrustResponse<PrimeTrustDataType.refunds>(resp);
+
+    return response;
   }
 }

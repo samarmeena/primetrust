@@ -1,6 +1,7 @@
 import type { PrimeTrustAPIClient } from "../client.js";
-import type { RawAccount } from "../interfaces/index.js";
 import type { AccountPayload } from "../payloads/index.js";
+import type { PrimeTrustDataType } from "../types/index.js";
+import type { PrimeTrustEntry } from "../utils/index.js";
 import { convertKeysToSnakeCase, PrimeTrustResponse } from "../utils/index.js";
 
 export class AccountManager {
@@ -28,7 +29,7 @@ export class AccountManager {
   async create(
     payload: AccountPayload,
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawAccount>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.accounts>> {
     const resp = await this.client.request<any>({
       data: {
         data: {
@@ -41,29 +42,35 @@ export class AccountManager {
       url: "/accounts",
     });
 
-    return PrimeTrustResponse(resp.data, resp.included);
+    const response = new PrimeTrustResponse<PrimeTrustDataType.accounts>(resp);
+
+    return response.one;
   }
 
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawAccount>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.accounts>> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/accounts/${id}`,
     });
 
-    return PrimeTrustResponse(resp.data, resp.included);
+    const response = new PrimeTrustResponse<PrimeTrustDataType.accounts>(resp);
+
+    return response.one;
   }
 
   async getAll(
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawAccount>[]> {
+  ): Promise<PrimeTrustResponse<PrimeTrustDataType.accounts>> {
     const resp = await this.client.request<any>({
       params: params,
       url: "/accounts",
     });
 
-    return resp.data.map((d: any) => PrimeTrustResponse(d));
+    const response = new PrimeTrustResponse<PrimeTrustDataType.accounts>(resp);
+
+    return response;
   }
 }

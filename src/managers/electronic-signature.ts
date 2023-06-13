@@ -1,5 +1,6 @@
 import type { PrimeTrustAPIClient } from "../client.js";
-import type { RawElectronicSignature } from "../interfaces/index.js";
+import type { PrimeTrustDataType } from "../types/index.js";
+import type { PrimeTrustEntry } from "../utils/index.js";
 import { PrimeTrustResponse } from "../utils/index.js";
 
 export class ElectronicSignatureManager {
@@ -10,23 +11,29 @@ export class ElectronicSignatureManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawElectronicSignature>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.electronicSignatures>> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/electronic-signatures/${id}`,
     });
 
-    return PrimeTrustResponse(resp.data, resp.included);
+    const response =
+      new PrimeTrustResponse<PrimeTrustDataType.electronicSignatures>(resp);
+
+    return response.one;
   }
 
   async getAll(
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawElectronicSignature>[]> {
+  ): Promise<PrimeTrustResponse<PrimeTrustDataType.electronicSignatures>> {
     const resp = await this.client.request<any>({
       params: params,
       url: "/electronic-signatures",
     });
 
-    return resp.data.map((d: any) => PrimeTrustResponse(d));
+    const response =
+      new PrimeTrustResponse<PrimeTrustDataType.electronicSignatures>(resp);
+
+    return response;
   }
 }

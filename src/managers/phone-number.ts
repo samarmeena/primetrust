@@ -1,5 +1,6 @@
 import type { PrimeTrustAPIClient } from "../client.js";
-import type { RawPhoneNumber } from "../interfaces/index.js";
+import type { PrimeTrustDataType } from "../types/index.js";
+import type { PrimeTrustEntry } from "../utils/index.js";
 import { PrimeTrustResponse } from "../utils/index.js";
 
 export class PhoneNumberManager {
@@ -10,23 +11,31 @@ export class PhoneNumberManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawPhoneNumber>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.phoneNumbers>> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/phone-numbers/${id}`,
     });
 
-    return PrimeTrustResponse(resp.data, resp.included);
+    const response = new PrimeTrustResponse<PrimeTrustDataType.phoneNumbers>(
+      resp
+    );
+
+    return response.one;
   }
 
   async getAll(
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawPhoneNumber>[]> {
+  ): Promise<PrimeTrustResponse<PrimeTrustDataType.phoneNumbers>> {
     const resp = await this.client.request<any>({
       params: params,
       url: "/phone-numbers",
     });
 
-    return resp.data.map((d: any) => PrimeTrustResponse(d));
+    const response = new PrimeTrustResponse<PrimeTrustDataType.phoneNumbers>(
+      resp
+    );
+
+    return response;
   }
 }

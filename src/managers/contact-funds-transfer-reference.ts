@@ -1,6 +1,7 @@
 import type { PrimeTrustAPIClient } from "../client.js";
-import type { RawContactFundsTransferReference } from "../interfaces/index.js";
 import type { ContactFundsTransferReferencePayload } from "../payloads/index.js";
+import type { PrimeTrustDataType } from "../types/index.js";
+import type { PrimeTrustEntry } from "../utils/index.js";
 import { convertKeysToSnakeCase, PrimeTrustResponse } from "../utils/index.js";
 
 export class ContactFundsTransferReferenceManager {
@@ -11,7 +12,9 @@ export class ContactFundsTransferReferenceManager {
   async create(
     payload: ContactFundsTransferReferencePayload,
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawContactFundsTransferReference>> {
+  ): Promise<
+    PrimeTrustEntry<PrimeTrustDataType.contactFundsTransferReferences>
+  > {
     const resp = await this.client.request<any>({
       data: {
         data: {
@@ -24,29 +27,48 @@ export class ContactFundsTransferReferenceManager {
       url: "/contact-funds-transfer-references",
     });
 
-    return PrimeTrustResponse(resp.data, resp.included);
+    const response =
+      new PrimeTrustResponse<PrimeTrustDataType.contactFundsTransferReferences>(
+        resp
+      );
+
+    return response.one;
   }
 
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawContactFundsTransferReference>> {
+  ): Promise<
+    PrimeTrustEntry<PrimeTrustDataType.contactFundsTransferReferences>
+  > {
     const resp = await this.client.request<any>({
       params: params,
       url: `/contact-funds-transfer-references/${id}`,
     });
 
-    return PrimeTrustResponse(resp.data, resp.included);
+    const response =
+      new PrimeTrustResponse<PrimeTrustDataType.contactFundsTransferReferences>(
+        resp
+      );
+
+    return response.one;
   }
 
   async getAll(
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawContactFundsTransferReference>[]> {
+  ): Promise<
+    PrimeTrustResponse<PrimeTrustDataType.contactFundsTransferReferences>
+  > {
     const resp = await this.client.request<any>({
       params: params,
       url: "/contact-funds-transfer-references",
     });
 
-    return resp.data.map((d: any) => PrimeTrustResponse(d));
+    const response =
+      new PrimeTrustResponse<PrimeTrustDataType.contactFundsTransferReferences>(
+        resp
+      );
+
+    return response;
   }
 }

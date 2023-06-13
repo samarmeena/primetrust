@@ -1,5 +1,6 @@
 import type { PrimeTrustAPIClient } from "../client.js";
-import type { RawResourceToken } from "../interfaces/index.js";
+import type { PrimeTrustDataType } from "../types/index.js";
+import type { PrimeTrustEntry } from "../utils/index.js";
 import { PrimeTrustResponse } from "../utils/index.js";
 
 export class ResourceTokenManager {
@@ -10,23 +11,31 @@ export class ResourceTokenManager {
   async get(
     id: string,
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawResourceToken>> {
+  ): Promise<PrimeTrustEntry<PrimeTrustDataType.resourceTokens>> {
     const resp = await this.client.request<any>({
       params: params,
       url: `/resource-tokens/${id}`,
     });
 
-    return PrimeTrustResponse(resp.data, resp.included);
+    const response = new PrimeTrustResponse<PrimeTrustDataType.resourceTokens>(
+      resp
+    );
+
+    return response.one;
   }
 
   async getAll(
     params?: Record<string, string>
-  ): Promise<PrimeTrustResponse<RawResourceToken>[]> {
+  ): Promise<PrimeTrustResponse<PrimeTrustDataType.resourceTokens>> {
     const resp = await this.client.request<any>({
       params: params,
       url: "/resource-tokens",
     });
 
-    return resp.data.map((d: any) => PrimeTrustResponse(d));
+    const response = new PrimeTrustResponse<PrimeTrustDataType.resourceTokens>(
+      resp
+    );
+
+    return response;
   }
 }
