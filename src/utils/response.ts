@@ -115,26 +115,14 @@ export class PrimeTrustEntry<T extends keyof RawMap> {
 
 export class PrimeTrustResponse<T extends keyof RawMap> {
   rawData: any;
-
-  get pageCount(): number {
-    if (!this.rawData.meta || typeof this.rawData.meta.pageCount !== "number") {
-      throw new Error("This response does not have a valid page count");
-    }
-
-    return this.rawData.meta.pageCount;
-  }
-
-  get resourceCount(): number {
-    return this.rawData.meta.resourceCount ?? 1;
-  }
-
-  get included(): any[] {
-    return this.rawData.included;
-  }
+  data: any | any[];
+  pageCount: number;
+  resourceCount: number;
+  included: any[];
 
   get one(): PrimeTrustEntry<T> | undefined {
-    if (Array.isArray(this.rawData.data)) {
-      const entry = this.rawData.data[0];
+    if (Array.isArray(this.data)) {
+      const entry = this.data[0];
       if (!entry) {
         return;
       }
@@ -142,7 +130,11 @@ export class PrimeTrustResponse<T extends keyof RawMap> {
       return new PrimeTrustEntry(this, entry);
     }
 
-    return new PrimeTrustEntry(this, this.rawData.data);
+    if (!this.data) {
+      return;
+    }
+
+    return new PrimeTrustEntry(this, this.data);
   }
 
   get all(): PrimeTrustEntry<T>[] {
@@ -154,10 +146,9 @@ export class PrimeTrustResponse<T extends keyof RawMap> {
   constructor(public raw: any) {
     this.rawData = convertKeysToCamelCase(raw);
 
-    if (!this.rawData.data) {
-      throw new PrimeTrustError(
-        "Invalid response data. Missing 'data' property"
-      );
-    }
+    this.data = this.rawData?.data ?? [];
+    this.pageCount = this.rawData?.meta?.pageCount ?? 0;
+    this.resourceCount = this.rawData?.meta?.resourceCount ?? 0;
+    this.included = this.rawData?.included ?? [];
   }
 }
